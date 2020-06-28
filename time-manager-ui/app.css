@@ -86,3 +86,78 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: rgb(132, 133, 134);
+  justify-content: center;
+  align-items: center;
+  padding: 2em;
+}
+
+.message {
+  display: flex;
+  background-color: rgb(132, 133, 134);
+  justify-content: center;
+  align-items: center;
+  font: Arial;
+  font-size: 50px;
+}
+
+.password {
+  display: flex;
+  background-color: rgb(132, 133, 134);
+  justify-content: Center;
+  font: Arial;
+  font-size: 25px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-evenly;
+  height: 50em;
+}
+
+.task-page {
+  display: flex;
+  height: 100vh;
+  background-color: rgb(132, 133, 134);
+  justify-content: center;
+  align-items: center;
+  padding: 2em;
+}
+
+.task-container {
+  display: flex;
+  flex: 1 0;
+  height: 98%;
+  background-color: thistle;
+  padding: 2em;
+  flex-direction: column;
+}
+
+.task-list {
+  display: flex;
+  flex: 8 0;
+}
+
+.task-filter {
+  display: flex;
+  flex: 1 0;
+}
+
+.task-add {
+  display: flex;
+  flex: 1 0;
+}
+
+.graph-container {
+  display: flex;
+  background-color: thistle;
+  flex: 1 0;
+  height: 98%;
+  background-color: thistle;
+  padding: 2em;
+}
