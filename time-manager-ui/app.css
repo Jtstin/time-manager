@@ -141,6 +141,7 @@ video {
 .task-list {
   display: flex;
   flex: 8 0;
+  background-color: white;
 }
 
 .task-filter {
