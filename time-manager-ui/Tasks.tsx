@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 enum Priority {
   High = "high",
@@ -13,6 +14,7 @@ interface Task {
 }
 
 const Tasks = () => {
+  const history = useHistory();
   const tasks: Task[] = [
     {
       name: "Task 1",
@@ -25,8 +27,12 @@ const Tasks = () => {
       priority: Priority.Medium,
     },
   ];
+  const handleScheduleButtonClick = () => {
+    history.push("/schedule");
+  };
   return (
     <div className="task-page">
+      <button onClick={handleScheduleButtonClick}>Schedule </button>
       <div className="task-container">
         <div className="task-filter">
           <input type="text"></input>
