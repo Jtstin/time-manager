@@ -6,7 +6,7 @@ const Login = () => {
     <div className="login-page">
       <div className="message">WELCOME BACK</div>
       <div className="password">
-        <label for="pw">password:</label>
+        <label htmlFor="pw">password:</label>
         <input type="password" id="pw" name="pw"></input>
         <button>Login</button>
       </div>

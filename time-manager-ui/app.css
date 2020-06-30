@@ -206,4 +206,43 @@ video {
 .schedule-page-content {
   display: flex;
   flex: 1 0;
+  flex-direction: column;
+}
+
+.day-nav {
+  display: flex;
+  background-color: white;
+}
+
+.event-container {
+  display: flex;
+  flex: 1 0;
+  background-color: thistle;
+  padding: 2em;
+  flex-direction: column;
+  border: 1px solid black;
+}
+
+.day {
+  display: flex;
+  flex: 1 0;
+  justify-content: center;
+}
+
+.priority-tasks {
+  display: flex;
+  flex: 1 0;
+  background-color: blue;
+  padding: 2em;
+}
+
+.schedule-main-content {
+  display: flex;
+  flex: 1 0;
+}
+
+.events {
+  display: flex;
+  flex: 1 0;
+  background-color: rgb(143, 220, 250);
 }
