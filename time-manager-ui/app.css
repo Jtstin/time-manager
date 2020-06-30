@@ -120,19 +120,23 @@ video {
   height: 50em;
 }
 
-.task-page {
+.main-container {
   display: flex;
   height: 100vh;
   background-color: rgb(132, 133, 134);
+}
+
+.task-page {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  flex: 1 0;
   padding: 2em;
 }
 
 .task-container {
   display: flex;
   flex: 1 0;
-  height: 98%;
   background-color: thistle;
   padding: 2em;
   flex-direction: column;
@@ -140,25 +144,66 @@ video {
 
 .task-list {
   display: flex;
-  flex: 8 0;
+  flex: 1 0;
   background-color: white;
 }
 
 .task-filter {
   display: flex;
-  flex: 1 0;
+  padding: 1em 1em 1em 0em;
 }
 
 .task-add {
   display: flex;
-  flex: 1 0;
 }
 
 .graph-container {
   display: flex;
-  background-color: thistle;
+  background-color: white;
   flex: 1 0;
-  height: 98%;
-  background-color: thistle;
   padding: 2em;
+  flex-direction: column;
+}
+
+.graph-selector {
+  display: flex;
+}
+
+.graph-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.graph-section {
+  display: flex;
+  flex: 1 0;
+  border: 1px solid black;
+}
+
+.task-page-header {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.task-page-content {
+  display: flex;
+  flex: 1 0;
+}
+
+.schedule-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 0;
+  padding: 2em;
+}
+
+.schedule-page-header {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.schedule-page-content {
+  display: flex;
+  flex: 1 0;
 }
