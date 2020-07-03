@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import Task from "./Task";
 
 enum Priority {
   High = "high",
@@ -18,13 +19,13 @@ const Tasks = () => {
   const tasks: Task[] = [
     {
       name: "Task 1",
-      dueBy: "01/01/2001",
+      dueBy: "00/00/2001",
       priority: Priority.High,
     },
     {
       name: "Task 2",
-      dueBy: "02/02/2002",
-      priority: Priority.Medium,
+      dueBy: "00/00/2001",
+      priority: Priority.Low,
     },
   ];
   const handleScheduleButtonClick = () => {
@@ -52,11 +53,11 @@ const Tasks = () => {
                 task,
                 index //transforms each task into their own individual divs to display
               ) => (
-                <div id={`task-${index}`}>
-                  <div>{task.name}</div>
-                  <div></div>
-                  <div></div>
-                </div>
+                <Task
+                  name={task.name}
+                  dueBy={task.dueBy}
+                  priority={task.priority}
+                ></Task>
               ))}
             </div>
             <div className="task-add">

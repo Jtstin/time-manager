@@ -83,7 +83,7 @@ video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: inherit;
+  font-family: "Arial", "Calibri";
   vertical-align: baseline;
 }
 
@@ -146,6 +146,8 @@ video {
   display: flex;
   flex: 1 0;
   background-color: white;
+  flex-direction: column;
+  border: 1px solid black;
 }
 
 .task-filter {
@@ -229,10 +231,10 @@ video {
   justify-content: center;
 }
 
-.priority-tasks {
+.priority-tasks-container {
   display: flex;
   flex: 1 0;
-  background-color: blue;
+  background-color: grey;
   padding: 2em;
 }
 
@@ -245,4 +247,28 @@ video {
   display: flex;
   flex: 1 0;
   background-color: rgb(143, 220, 250);
+}
+
+.modify-events {
+  display: flex;
+}
+
+.priority-tasks {
+  display: flex;
+  flex: 1 0;
+  background-color: white;
+  border-bottom: 1px solid black;
+  flex-direction: column;
+  border: 1px solid black;
+}
+
+.task-properties {
+  display: flex;
+  justify-content: space-evenly;
+  border-bottom: 1px solid black;
+}
+
+.priority-task {
+  border-bottom: 1px solid black;
+  justify-content: space-evenly;
 }
