@@ -1,8 +1,79 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Task, { TaskData, Priority } from "./Task";
+import Chart from "react-google-charts";
+
+enum GraphType {
+  Bar = "bar",
+  Pie = "pie",
+}
+
+function getGraph(graphType: GraphType) {
+  const height = 600;
+  const width = 600;
+  if (graphType === GraphType.Bar) {
+    return (
+      <Chart
+        width={width}
+        height={height}
+        chartType="ColumnChart"
+        loader={<div>Loading Chart</div>}
+        data={[
+          ["day", "last week", "this week"],
+          ["Mon", 650, 750],
+          ["Tue", 550, 570],
+          ["Wed", 600, 580],
+          ["Thu", 700, 700],
+          ["today", 900, 99],
+        ]}
+        options={{
+          hAxis: {
+            title: "Day of week",
+            minValue: 0,
+          },
+          vAxis: {
+            title: "Order Count",
+          },
+          legend: {
+            position: "bottom",
+          },
+        }}
+      />
+    );
+  }
+
+  return (
+    <Chart
+      width={width}
+      height={height}
+      chartType="PieChart"
+      loader={<div>Loading Chart</div>}
+      data={[
+        ["day", "last week", "this week"],
+        ["Mon", 650, 750],
+        ["Tue", 550, 570],
+        ["Wed", 600, 580],
+        ["Thu", 700, 700],
+        ["today", 900, 99],
+      ]}
+      options={{
+        hAxis: {
+          title: "Day of week",
+          minValue: 0,
+        },
+        vAxis: {
+          title: "Order Count",
+        },
+        legend: {
+          position: "bottom",
+        },
+      }}
+    />
+  );
+}
 
 const Tasks = () => {
+  const [graphType, setGraphType] = useState(GraphType.Pie);
   const history = useHistory();
   const tasks: TaskData[] = [
     {
@@ -18,6 +89,10 @@ const Tasks = () => {
   ];
   const handleScheduleButtonClick = () => {
     history.push("/schedule");
+  };
+
+  const handleChangeGraphType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setGraphType(e.currentTarget.value as GraphType);
   };
   return (
     <div className="main-container">
@@ -63,12 +138,18 @@ const Tasks = () => {
             <div className="graph-header">
               <div></div>
               <div>COMPLETED TASKS</div>
-              <select className="graph-selector">
-                <option value="Pie">Pie</option>
-                <option value="Bar">Bar</option>
+              <select
+                value={graphType}
+                onChange={handleChangeGraphType}
+                className="graph-selector"
+              >
+                <option>{GraphType.Pie}</option>
+                <option>{GraphType.Bar}</option>
               </select>
             </div>
-            <div className="graph-section"></div>
+            <div className="graph-section">
+              <div className="graph">{getGraph(graphType)}</div>
+            </div>
           </div>
         </div>
       </div>
