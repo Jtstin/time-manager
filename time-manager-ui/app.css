@@ -137,7 +137,7 @@ video {
 .task-container {
   display: flex;
   flex: 1 0;
-  background-color: thistle;
+  background-color: lightgray;
   padding: 2em;
   flex-direction: column;
 }
@@ -246,11 +246,34 @@ video {
 .events {
   display: flex;
   flex: 1 0;
-  background-color: rgb(143, 220, 250);
+  background-color: white;
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+  border-left: 1px solid black;
 }
 
 .modify-events {
   display: flex;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.modify-events > div {
+  display: flex;
+  padding: 0.5em;
+  flex: 1 0;
+}
+
+.modify-events > div:first-child {
+  flex: 2 0;
+}
+
+.modify-events > div > * {
+  padding: 0.5em;
+  flex: 1 0;
+  border-radius: 5px;
+  border-width: 0.2px;
+  border-color: lightgray;
 }
 
 .priority-tasks {

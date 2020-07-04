@@ -1,21 +1,25 @@
 import React from "react";
 
-export interface TaskProps {
+export enum Priority {
+  High = "high",
+  Medium = "medium",
+  Low = "low",
+} //fixed values for priorities
+
+export interface TaskData {
   name: string;
   dueBy: string;
-  priority: string;
+  priority: Priority;
 }
 
-function Task(props: TaskProps) {
+export default function Task(props: TaskData) {
   //const { name, dueBy, priority } = props;
   return (
     <div className="task-properties">
       <div>{props.name}</div>
       <div>DueBy: {props.dueBy}</div>
-      <div>Priority: {props.priority}</div>
+      <div>Priority:{props.priority}</div>
       <input type="checkbox"></input>
     </div>
   );
 }
-
-export default Task;

@@ -1,22 +1,10 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import Task from "./Task";
-
-enum Priority {
-  High = "high",
-  Medium = "medium",
-  Low = "low",
-} //fixed values for priorities
-
-interface Task {
-  name: string;
-  dueBy: string;
-  priority: Priority;
-}
+import Task, { TaskData, Priority } from "./Task";
 
 const Tasks = () => {
   const history = useHistory();
-  const tasks: Task[] = [
+  const tasks: TaskData[] = [
     {
       name: "Task 1",
       dueBy: "00/00/2001",
