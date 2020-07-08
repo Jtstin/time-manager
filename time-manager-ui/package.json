@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "parcel src/index.html"
+    "start": "parcel src/index.html",
+    "clean": "rm -rf dist .cache",
+    "build-prod": "npm run clean && NODE_ENV=production parcel build ./src/index.html --no-minify",
+    "loc-to-prod": "npm run build-prod && env-cmd -f ./.local-to-prod wrangler publish"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +21,7 @@
     "@types/react": "^16.9.41",
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.5",
+    "env-cmd": "^10.1.0",
     "parcel-bundler": "^1.12.4",
     "typescript": "^3.9.5"
   }
