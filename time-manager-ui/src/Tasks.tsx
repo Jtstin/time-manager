@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Task, { TaskData, Priority } from "./Task";
 import Chart from "react-google-charts";
+import { api } from "./api";
 
 enum GraphType {
   Bar = "bar",
@@ -75,18 +76,10 @@ function getGraph(graphType: GraphType) {
 const Tasks = () => {
   const [graphType, setGraphType] = useState(GraphType.Pie);
   const history = useHistory();
-  const tasks: TaskData[] = [
-    {
-      name: "Task 1",
-      dueBy: "00/00/2001",
-      priority: Priority.High,
-    },
-    {
-      name: "Task 2",
-      dueBy: "00/00/2001",
-      priority: Priority.Low,
-    },
-  ];
+  const [tasks, setTasks] = useState([]);
+  useEffect(() => {
+    api.getTasks().then((result) => setTasks(result));
+  }, []);
   const handleScheduleButtonClick = () => {
     history.push("/schedule");
   };
@@ -117,6 +110,7 @@ const Tasks = () => {
                 index //transforms each task into their own individual divs to display
               ) => (
                 <Task
+                  key={`tl-${task.id}`}
                   name={task.name}
                   dueBy={task.dueBy}
                   priority={task.priority}
