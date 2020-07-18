@@ -1,5 +1,9 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
+Parameters:
+  WebClientOrigin:
+    Type: String
+    Description: Web app origin
 Description: >
   time-manager-app
 
@@ -9,6 +13,15 @@ Description: >
 Globals:
   Function:
     Timeout: 3
+  Api:
+    Cors:
+      AllowOrigin: !Join
+        - ""
+        - - "'"
+          - !Ref WebClientOrigin
+          - "'"
+      AllowMethods: "'*'"
+      AllowHeaders: "'*'"
 
 Resources:
   EventsFunction:
@@ -17,6 +30,9 @@ Resources:
       CodeUri: events
       Handler: app.lambdaHandler
       Runtime: nodejs12.x
+      Environment:
+        Variables:
+          WEB_CLIENT_ORIGIN: !Ref WebClientOrigin
       Events:
         GetEvents:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -34,6 +50,9 @@ Resources:
       CodeUri: tasks
       Handler: app.lambdaHandler
       Runtime: nodejs12.x
+      Environment:
+        Variables:
+          WEB_CLIENT_ORIGIN: !Ref WebClientOrigin
       Events:
         GetTasks:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api

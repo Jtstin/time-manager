@@ -3,6 +3,13 @@ const ROUTEKEY_GET_EVENTS = "GET /events";
 const ROUTEKEY_PUT_EVENTS = "PUT /events/{eventId}";
 
 exports.lambdaHandler = async (event, context) => {
+  const webClientOrigin = process.env.WEB_CLIENT_EVENT?.replace(/'/g, ""); //Pulls the web client origin from the environment variable, it removes all single quotation marks
+  const headers = {
+    "Access-Control-Allow-Origin": webClientOrigin,
+    "Access-Control-Allow-Methods": "*",
+    "Access-Control-Allow-Headers": "*",
+    "Content-Type": "application/json",
+  };
   const routeKey = `${event.httpMethod} ${event.resource}`;
   try {
     switch (routeKey) {
@@ -13,6 +20,7 @@ exports.lambdaHandler = async (event, context) => {
         const reponse = await docClient.scan({ TableName: "events" }).promise();
 
         return {
+          headers,
           statusCode: 200,
           body: JSON.stringify({ events: reponse.Items }),
         };
@@ -27,11 +35,13 @@ exports.lambdaHandler = async (event, context) => {
           .put({ TableName: "events", Item: { id: eventId, ...tmEvent } })
           .promise();
         return {
+          headers,
           statusCode: 200,
         };
       }
       default:
         return {
+          headers,
           statusCode: 404,
         };
     }
