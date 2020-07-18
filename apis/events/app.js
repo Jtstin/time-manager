@@ -1,30 +1,30 @@
 const AWS = require("aws-sdk");
-const ROUTEKEY_GET_TASKS = "GET /tasks";
-const ROUTEKEY_PUT_TASKS = "PUT /tasks/{taskId}";
+const ROUTEKEY_GET_EVENTS = "GET /events";
+const ROUTEKEY_PUT_EVENTS = "PUT /events/{eventId}";
 
 exports.lambdaHandler = async (event, context) => {
   const routeKey = `${event.httpMethod} ${event.resource}`;
   try {
     switch (routeKey) {
-      case ROUTEKEY_GET_TASKS: {
+      case ROUTEKEY_GET_EVENTS: {
         const docClient = new AWS.DynamoDB.DocumentClient({
           endpoint: "http://host.docker.internal:8000",
         });
-        const reponse = await docClient.scan({ TableName: "tasks" }).promise();
+        const reponse = await docClient.scan({ TableName: "events" }).promise();
 
         return {
           statusCode: 200,
-          body: JSON.stringify({ tasks: reponse.Items }),
+          body: JSON.stringify({ events: reponse.Items }),
         };
       }
-      case ROUTEKEY_PUT_TASKS: {
-        const taskId = event.pathParameters.taskId;
-        const task = JSON.parse(event.body);
+      case ROUTEKEY_PUT_EVENTS: {
+        const eventId = event.pathParameters.eventId;
+        const tmEvent = JSON.parse(event.body);
         const docClient = new AWS.DynamoDB.DocumentClient({
           endpoint: "http://host.docker.internal:8000",
         });
         await docClient
-          .put({ TableName: "tasks", Item: { id: taskId, ...task } })
+          .put({ TableName: "events", Item: { id: eventId, ...tmEvent } })
           .promise();
         return {
           statusCode: 200,
