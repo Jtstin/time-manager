@@ -1,0 +1,22 @@
+{
+  "name": "time-manager",
+  "version": "1.0.0",
+  "description": "Time manager",
+  "main": "index.js",
+  "scripts": {
+    "start-dyndb-admin": "DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jtstin/time-manager.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jtstin/time-manager/issues"
+  },
+  "homepage": "https://github.com/Jtstin/time-manager#readme",
+  "devDependencies": {
+    "dynamodb-admin": "^4.0.0"
+  }
+}
