@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-WEB_CLIENT_ORIGIN="https://localhost:1234"
-overrides="ParameterKey=WebClientOrigin,ParameterValue='$WEB_CLIENT_ORIGIN'"
-sam local start-api --parameter-overrides "$overrides" --skip-pull-image

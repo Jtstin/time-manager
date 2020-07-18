@@ -4,6 +4,7 @@ Parameters:
   WebClientOrigin:
     Type: String
     Description: Web app origin
+    Default: "'http://localhost:1234'"
 Description: >
   time-manager-app
 
