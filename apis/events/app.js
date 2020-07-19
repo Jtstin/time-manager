@@ -2,6 +2,16 @@ const AWS = require("aws-sdk");
 const ROUTEKEY_GET_EVENTS = "GET /events";
 const ROUTEKEY_PUT_EVENTS = "PUT /events/{eventId}";
 
+function createDocClient() {
+  const endpoint = process.env.DYNAMODB_ENDPOINT;
+  if (endpoint === "notSet") {
+    return new AWS.DynamoDB.DocumentClient();
+  }
+  return new AWS.DynamoDB.DocumentClient({
+    endpoint,
+  });
+}
+
 exports.lambdaHandler = async (event, context) => {
   const webClientOrigin = process.env.WEB_CLIENT_ORIGIN; //Pulls the web client origin from the environment variable, it removes all single quotation marks
   const headers = {
@@ -14,9 +24,7 @@ exports.lambdaHandler = async (event, context) => {
   try {
     switch (routeKey) {
       case ROUTEKEY_GET_EVENTS: {
-        const docClient = new AWS.DynamoDB.DocumentClient({
-          endpoint: "http://host.docker.internal:8000",
-        });
+        const docClient = createDocClient();
         const reponse = await docClient.scan({ TableName: "events" }).promise();
 
         return {
@@ -28,9 +36,7 @@ exports.lambdaHandler = async (event, context) => {
       case ROUTEKEY_PUT_EVENTS: {
         const eventId = event.pathParameters.eventId;
         const tmEvent = JSON.parse(event.body);
-        const docClient = new AWS.DynamoDB.DocumentClient({
-          endpoint: "http://host.docker.internal:8000",
-        });
+        const docClient = createDocClient();
         await docClient
           .put({ TableName: "events", Item: { id: eventId, ...tmEvent } })
           .promise();

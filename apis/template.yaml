@@ -5,6 +5,11 @@ Parameters:
     Type: String
     Description: Web app origin
     Default: http://localhost:1234
+  DyanmoDbEndpoint:
+    Type: String
+    Description: dynamo DB endpoint
+    Default: http://host.docker.internal:8000
+
 Description: >
   time-manager-app
 
@@ -37,6 +42,7 @@ Resources:
       Environment:
         Variables:
           WEB_CLIENT_ORIGIN: !Ref WebClientOrigin
+          DYNAMODB_ENDPOINT: !Ref DyanmoDbEndpoint
       Events:
         GetEvents:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -60,6 +66,7 @@ Resources:
       Environment:
         Variables:
           WEB_CLIENT_ORIGIN: !Ref WebClientOrigin
+          DYNAMODB_ENDPOINT: !Ref DyanmoDbEndpoint
       Events:
         GetTasks:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
