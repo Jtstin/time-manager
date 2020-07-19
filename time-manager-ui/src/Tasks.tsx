@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import Task, { TaskData, Priority } from "./Task";
 import Chart from "react-google-charts";
 import { api } from "./api";
+import { NewTask } from "./newTask";
 
 enum GraphType {
   Bar = "bar",
@@ -83,6 +84,14 @@ const Tasks = () => {
   const handleScheduleButtonClick = () => {
     history.push("/schedule");
   };
+  const handleSaveTask = (newTask) => {
+    console.log(newTask);
+    api.saveTask(newTask).then((response) => {
+      if (response.status === 200) {
+        setTasks([...tasks, newTask]);
+      }
+    });
+  };
 
   const handleChangeGraphType = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setGraphType(e.currentTarget.value as GraphType);
@@ -117,16 +126,7 @@ const Tasks = () => {
                 ></Task>
               ))}
             </div>
-            <div className="task-add">
-              <input type="text"></input>
-              <input type="date"></input>
-              <select>
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-              </select>
-              <button>Add</button>
-            </div>
+            <NewTask handleSaveTask={handleSaveTask} />
           </div>
           <div className="graph-container">
             <div className="graph-header">

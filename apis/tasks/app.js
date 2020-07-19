@@ -3,7 +3,7 @@ const ROUTEKEY_GET_TASKS = "GET /tasks";
 const ROUTEKEY_PUT_TASKS = "PUT /tasks/{taskId}";
 
 exports.lambdaHandler = async (event, context) => {
-  const webClientOrigin = process.env.WEB_CLIENT_ORIGIN.replace(/'/g, ""); //Pulls the web client origin from the environment variable, it removes all single quotation marks
+  const webClientOrigin = process.env.WEB_CLIENT_ORIGIN;
   const headers = {
     "Access-Control-Allow-Origin": webClientOrigin,
     "Access-Control-Allow-Methods": "*",
@@ -47,6 +47,9 @@ exports.lambdaHandler = async (event, context) => {
     }
   } catch (err) {
     console.log(err);
-    return err;
+    return {
+      headers,
+      statusCode: 500,
+    };
   }
 };

@@ -3,7 +3,7 @@ const ROUTEKEY_GET_EVENTS = "GET /events";
 const ROUTEKEY_PUT_EVENTS = "PUT /events/{eventId}";
 
 exports.lambdaHandler = async (event, context) => {
-  const webClientOrigin = process.env.WEB_CLIENT_ORIGIN.replace(/'/g, ""); //Pulls the web client origin from the environment variable, it removes all single quotation marks
+  const webClientOrigin = process.env.WEB_CLIENT_ORIGIN; //Pulls the web client origin from the environment variable, it removes all single quotation marks
   const headers = {
     "Access-Control-Allow-Origin": webClientOrigin,
     "Access-Control-Allow-Methods": "*",
@@ -49,6 +49,4 @@ exports.lambdaHandler = async (event, context) => {
     console.log(err);
     return err;
   }
-
-  return response;
 };
