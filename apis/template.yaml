@@ -31,6 +31,9 @@ Resources:
       CodeUri: events
       Handler: app.lambdaHandler
       Runtime: nodejs12.x
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: events
       Environment:
         Variables:
           WEB_CLIENT_ORIGIN: !Ref WebClientOrigin
@@ -51,6 +54,9 @@ Resources:
       CodeUri: tasks
       Handler: app.lambdaHandler
       Runtime: nodejs12.x
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: tasks
       Environment:
         Variables:
           WEB_CLIENT_ORIGIN: !Ref WebClientOrigin
