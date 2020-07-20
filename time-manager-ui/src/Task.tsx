@@ -13,7 +13,6 @@ export interface TaskData {
 }
 
 export default function Task(props: TaskData) {
-  //const { name, dueBy, priority } = props;
   return (
     <div className="task-properties">
       <div>{props.name}</div>

@@ -79,13 +79,13 @@ const Tasks = () => {
   const history = useHistory();
   const [tasks, setTasks] = useState([]);
   useEffect(() => {
+    //display for the first time, update, remove
     api.getTasks().then((result) => setTasks(result));
   }, []);
   const handleScheduleButtonClick = () => {
     history.push("/schedule");
   };
   const handleSaveTask = (newTask) => {
-    console.log(newTask);
     api.saveTask(newTask).then((response) => {
       if (response.status === 200) {
         setTasks([...tasks, newTask]);
