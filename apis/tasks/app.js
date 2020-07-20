@@ -4,7 +4,7 @@ const ROUTEKEY_PUT_TASKS = "PUT /tasks/{taskId}";
 
 function createDocClient() {
   const endpoint = process.env.DYNAMODB_ENDPOINT;
-  if (endpoint === "notSet") {
+  if (endpoint === "notset") {
     return new AWS.DynamoDB.DocumentClient();
   }
   return new AWS.DynamoDB.DocumentClient({
