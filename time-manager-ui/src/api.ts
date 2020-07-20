@@ -10,7 +10,8 @@ export namespace api {
     export interface Event {
       id: string;
       name: string;
-      time: string;
+      timeStart: string;
+      timeEnd: string;
     }
   }
   export function getTasks(): Promise<contracts.Task[]> {

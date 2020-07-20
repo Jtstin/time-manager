@@ -1,6 +1,9 @@
-import React, { useImperativeHandle } from "react";
+import React, { useImperativeHandle, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Task, { TaskData, Priority } from "./Task";
+import { NewEvent } from "./NewEvent";
+import { api } from "./api";
+import IndiEvent from "./IndiEvent";
 
 const tasks: TaskData[] = [
   {
@@ -15,11 +18,24 @@ const tasks: TaskData[] = [
   },
 ];
 
-const Schedule = () => {
+export default function Schedule() {
+  const [events, setEvents] = useState([]);
+  useEffect(() => {
+    //display for the first time, update, remove
+    api.getEvents().then((result) => setEvents(result));
+  }, []);
+  const handleSaveEvent = (newEvent) => {
+    api.saveEvent(newEvent).then((response) => {
+      if (response.status === 200) {
+        setEvents([...events, newEvent]);
+      }
+    });
+  };
   const history = useHistory();
   const handleTaskButtonClick = () => {
     history.push("/tasks");
   };
+
   return (
     <div className="main-container">
       <div className="schedule-page">
@@ -35,24 +51,21 @@ const Schedule = () => {
                 <div className="day">Monday</div>
                 <button>{">"}</button>
               </div>
-              <div className="events"></div>
-              <div className="modify-events">
-                <div>
-                  <input type="text"></input>
-                </div>
-                <div>
-                  <input type="time"></input>
-                </div>
-                <div>
-                  <input type="time"></input>
-                </div>
-                <div>
-                  <button>Add</button>
-                </div>
-                <div>
-                  <button>Edit</button>
-                </div>
+              <div className="events">
+                {" "}
+                {events.map((
+                  event,
+                  index //transforms each event into their own individual divs to display
+                ) => (
+                  <IndiEvent
+                    key={`tl-${event.id}`}
+                    name={event.name}
+                    timeStart={event.timeStart}
+                    timeEnd={event.timeEnd}
+                  ></IndiEvent>
+                ))}
               </div>
+              <NewEvent handleSaveEvent={handleSaveEvent} />
             </div>
             <div className="priority-tasks-container">
               <div className="priority-tasks">
@@ -74,6 +87,4 @@ const Schedule = () => {
       </div>
     </div>
   );
-};
-
-export default Schedule;
+}
