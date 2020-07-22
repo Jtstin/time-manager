@@ -21,6 +21,11 @@
   padding: 2em;
   flex-direction: column;
 }
+.task-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 
 .task-list {
   display: flex;
@@ -33,6 +38,12 @@
 .task-filter {
   display: flex;
   padding: 1em 1em 1em 0em;
+}
+
+.task-sort {
+  display: flex;
+  flex-direction: row;
+  padding: 1em 0em 1em 1em;
 }
 
 .task-add {

@@ -74,14 +74,17 @@ function getGraph(graphType: GraphType) {
   );
 }
 
+const priorityMap = { High: 1, Medium: 2, Low: 3 };
+
 const Tasks = () => {
   const [graphType, setGraphType] = useState(GraphType.Pie);
   const history = useHistory();
   const [tasks, setTasks] = useState([]);
   useEffect(() => {
-    //display for the first time, update, remove
+    console.log("called");
+    //display for the first time
     api.getTasks().then((result) => setTasks(result));
-  }, []);
+  }, ["x"]);
   const handleScheduleButtonClick = () => {
     history.push("/schedule");
   };
@@ -96,6 +99,20 @@ const Tasks = () => {
   const handleChangeGraphType = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setGraphType(e.currentTarget.value as GraphType);
   };
+  const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(e.currentTarget.value);
+    if (e.currentTarget.value === "High-Low") {
+      const sortedTasks = [...tasks].sort(
+        (t1, t2) => priorityMap[t1.priority] - priorityMap[t2.priority]
+      );
+      setTasks(sortedTasks);
+      return;
+    }
+    const sortedTasks = [...tasks].sort(
+      (t1, t2) => priorityMap[t2.priority] - priorityMap[t1.priority]
+    );
+    setTasks(sortedTasks);
+  };
   return (
     <div className="main-container">
       <div className="task-page">
@@ -104,20 +121,26 @@ const Tasks = () => {
         </div>
         <div className="task-page-content">
           <div className="task-container">
-            <div className="task-filter">
-              <input type="text"></input>
-              <select>
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-              </select>
-              <button>Search</button>
+            <div className="task-header">
+              <div className="task-filter">
+                <input type="text"></input>
+                <select>
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+                </select>
+                <button>Search</button>
+              </div>
+              <div className="task-sort">
+                <div>Sort By: &nbsp; </div>
+                <select onChange={handleSort}>
+                  <option value="High-Low">High to Low</option>
+                  <option value="Low-High">Low to High</option>
+                </select>
+              </div>
             </div>
             <div className="task-list">
-              {tasks.map((
-                task,
-                index //transforms each task into their own individual divs to display
-              ) => (
+              {tasks.map((task) => (
                 <Task
                   key={`tl-${task.id}`}
                   name={task.name}

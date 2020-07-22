@@ -1,9 +1,9 @@
 import React from "react";
 
 export enum Priority {
-  High = "high",
-  Medium = "medium",
-  Low = "low",
+  High = "High",
+  Medium = "Medium",
+  Low = "Low",
 } //fixed values for priorities
 
 export interface TaskData {
