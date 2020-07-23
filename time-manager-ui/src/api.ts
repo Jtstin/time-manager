@@ -6,6 +6,7 @@ export namespace api {
       name: string;
       dueBy: string;
       priority: string;
+      completed: number;
     }
     export interface Event {
       id: string;
@@ -16,6 +17,12 @@ export namespace api {
   }
   export function getTasks(): Promise<contracts.Task[]> {
     return fetch(`${apiHost}/tasks`)
+      .then((response) => response.json())
+      .then((data) => Promise.resolve(data.tasks));
+  }
+
+  export function getHighPriorityTasks(): Promise<contracts.Task[]> {
+    return fetch(`${apiHost}/high-priority-tasks`)
       .then((response) => response.json())
       .then((data) => Promise.resolve(data.tasks));
   }

@@ -69,9 +69,14 @@ Resources:
           DYNAMODB_ENDPOINT: !Ref DyanmoDbEndpoint
       Events:
         GetTasks:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Type: Api
           Properties:
             Path: /tasks
+            Method: get
+        GetHighPriorityTasks:
+          Type: Api
+          Properties:
+            Path: /high-priority-tasks
             Method: get
         PutTasks:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api

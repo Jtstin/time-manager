@@ -1,5 +1,6 @@
 const AWS = require("aws-sdk");
 const ROUTEKEY_GET_TASKS = "GET /tasks";
+const ROUTEKEY_GET_HIGH_PRIORITY_TASKS = "GET /high-priority-tasks";
 const ROUTEKEY_PUT_TASKS = "PUT /tasks/{taskId}";
 
 function createDocClient() {
@@ -25,7 +26,27 @@ exports.lambdaHandler = async (event, context) => {
       case ROUTEKEY_GET_TASKS: {
         const docClient = createDocClient();
         const reponse = await docClient.scan({ TableName: "tasks" }).promise();
-
+        return {
+          headers,
+          statusCode: 200,
+          body: JSON.stringify({ tasks: reponse.Items }),
+        };
+      }
+      case ROUTEKEY_GET_HIGH_PRIORITY_TASKS: {
+        const docClient = createDocClient();
+        const reponse = await docClient
+          .query({
+            IndexName: "ix-priority",
+            TableName: "tasks",
+            KeyConditionExpression: "#priority = :v_priority",
+            ExpressionAttributeNames: {
+              "#priority": "priority",
+            },
+            ExpressionAttributeValues: {
+              ":v_priority": "High",
+            },
+          })
+          .promise();
         return {
           headers,
           statusCode: 200,
