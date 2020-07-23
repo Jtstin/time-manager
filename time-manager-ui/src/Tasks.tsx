@@ -4,6 +4,7 @@ import Task, { TaskData, Priority } from "./Task";
 import Chart from "react-google-charts";
 import { api } from "./api";
 import { NewTask } from "./newTask";
+import { models } from "./models";
 
 enum GraphType {
   Bar = "bar",
@@ -74,8 +75,6 @@ function getGraph(graphType: GraphType) {
   );
 }
 
-const priorityMap = { High: 1, Medium: 2, Low: 3 };
-
 const Tasks = () => {
   const [graphType, setGraphType] = useState(GraphType.Pie);
   const history = useHistory();
@@ -84,7 +83,7 @@ const Tasks = () => {
     console.log("called");
     //display for the first time
     api.getTasks().then((result) => setTasks(result));
-  }, ["x"]);
+  }, []);
   const handleScheduleButtonClick = () => {
     history.push("/schedule");
   };
@@ -100,16 +99,17 @@ const Tasks = () => {
     setGraphType(e.currentTarget.value as GraphType);
   };
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.currentTarget.value);
     if (e.currentTarget.value === "High-Low") {
       const sortedTasks = [...tasks].sort(
-        (t1, t2) => priorityMap[t1.priority] - priorityMap[t2.priority]
+        (t1, t2) =>
+          models.priorityMap[t1.priority] - models.priorityMap[t2.priority]
       );
       setTasks(sortedTasks);
       return;
     }
     const sortedTasks = [...tasks].sort(
-      (t1, t2) => priorityMap[t2.priority] - priorityMap[t1.priority]
+      (t1, t2) =>
+        models.priorityMap[t2.priority] - models.priorityMap[t1.priority]
     );
     setTasks(sortedTasks);
   };

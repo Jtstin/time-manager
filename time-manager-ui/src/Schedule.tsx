@@ -1,29 +1,19 @@
-import React, { useImperativeHandle, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import Task, { TaskData, Priority } from "./Task";
+import Task from "./Task";
 import { NewEvent } from "./NewEvent";
 import { api } from "./api";
 import IndiEvent from "./IndiEvent";
-
-const tasks: TaskData[] = [
-  {
-    name: "Task 1",
-    dueBy: "00/00/2001",
-    priority: Priority.High,
-  },
-  {
-    name: "Task 2",
-    dueBy: "00/00/2001",
-    priority: Priority.High,
-  },
-];
+import { models } from "./models";
 
 export default function Schedule() {
+  const [tasks, setTasks] = useState([]);
   const [events, setEvents] = useState([]);
   useEffect(() => {
-    //display for the first time, update, remove
     api.getEvents().then((result) => setEvents(result));
+    api.getHighPriorityTasks().then((result) => setTasks(result));
   }, []);
+
   const handleSaveEvent = (newEvent) => {
     api.saveEvent(newEvent).then((response) => {
       if (response.status === 200) {

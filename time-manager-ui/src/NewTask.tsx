@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { models } from "./models";
 
 interface NewTaskProps {
   handleSaveTask: (task) => void;
@@ -24,13 +25,12 @@ export function NewTask(props: NewTaskProps) {
       <select
         defaultValue={DefaultPriority}
         onChange={(e) => {
-          console.log(`priority=${e.currentTarget.value}`);
           setPriority(e.currentTarget.value);
         }}
       >
-        <option value="High">High</option>
-        <option value="Medium">Medium</option>
-        <option value="Low">Low</option>
+        <option value={models.Priority.High}>{models.Priority.High}</option>
+        <option value={models.Priority.Medium}>{models.Priority.Medium}</option>
+        <option value={models.Priority.Low}>{models.Priority.Low}</option>
       </select>
       <button
         onClick={() =>

@@ -1,18 +1,9 @@
 import React from "react";
+import { models } from "./models";
 
-export enum Priority {
-  High = "High",
-  Medium = "Medium",
-  Low = "Low",
-} //fixed values for priorities
+type TaskProps = models.Task;
 
-export interface TaskData {
-  name: string;
-  dueBy: string;
-  priority: Priority;
-}
-
-export default function Task(props: TaskData) {
+export default function Task(props: TaskProps) {
   return (
     <div className="task-properties">
       <div>{props.name}</div>
