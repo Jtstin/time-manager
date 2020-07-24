@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import Task, { TaskData, Priority } from "./Task";
+import Task from "./Task";
 import Chart from "react-google-charts";
-import { api } from "./api";
 import { NewTask } from "./newTask";
 import { models } from "./models";
+import { api } from "./api";
+import { mappers } from "./mappers";
 
 enum GraphType {
   Bar = "bar",
@@ -78,15 +79,29 @@ function getGraph(graphType: GraphType) {
 const Tasks = () => {
   const [graphType, setGraphType] = useState(GraphType.Pie);
   const history = useHistory();
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<models.Task[]>([]);
+
   useEffect(() => {
     console.log("called");
     //display for the first time
-    api.getTasks().then((result) => setTasks(result));
+    api.getRemainingTasks().then((result) => setTasks(result));
   }, []);
+
+  const handleCompletion = (taskId: number) => {
+    const completedTask = tasks.filter((task) => task.id === taskId)[0];
+    const remainingTasks = tasks.filter((task) => task.id !== taskId);
+    completedTask.completed = Date.now();
+    api.saveTask(mappers.toTaskContract(completedTask)).then((response) => {
+      if (response.ok) {
+        setTasks(remainingTasks);
+      }
+    });
+  };
+
   const handleScheduleButtonClick = () => {
     history.push("/schedule");
   };
+
   const handleSaveTask = (newTask) => {
     api.saveTask(newTask).then((response) => {
       if (response.status === 200) {
@@ -98,6 +113,7 @@ const Tasks = () => {
   const handleChangeGraphType = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setGraphType(e.currentTarget.value as GraphType);
   };
+
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (e.currentTarget.value === "High-Low") {
       const sortedTasks = [...tasks].sort(
@@ -113,6 +129,7 @@ const Tasks = () => {
     );
     setTasks(sortedTasks);
   };
+
   return (
     <div className="main-container">
       <div className="task-page">
@@ -143,9 +160,8 @@ const Tasks = () => {
               {tasks.map((task) => (
                 <Task
                   key={`tl-${task.id}`}
-                  name={task.name}
-                  dueBy={task.dueBy}
-                  priority={task.priority}
+                  {...task}
+                  handleCompletion={handleCompletion}
                 ></Task>
               ))}
             </div>

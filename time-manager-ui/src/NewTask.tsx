@@ -34,7 +34,13 @@ export function NewTask(props: NewTaskProps) {
       </select>
       <button
         onClick={() =>
-          props.handleSaveTask({ id: generateId(), name, dueBy, priority })
+          props.handleSaveTask({
+            id: generateId(),
+            name,
+            dueBy,
+            priority,
+            completed: 0,
+          })
         }
       >
         Add

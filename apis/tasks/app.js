@@ -1,5 +1,6 @@
 const AWS = require("aws-sdk");
 const ROUTEKEY_GET_TASKS = "GET /tasks";
+const ROUTEKEY_GET_REMAINING_TASKS = "GET /remaining-tasks";
 const ROUTEKEY_GET_HIGH_PRIORITY_TASKS = "GET /high-priority-tasks";
 const ROUTEKEY_PUT_TASKS = "PUT /tasks/{taskId}";
 
@@ -44,6 +45,27 @@ exports.lambdaHandler = async (event, context) => {
             },
             ExpressionAttributeValues: {
               ":v_priority": "High",
+            },
+          })
+          .promise();
+        return {
+          headers,
+          statusCode: 200,
+          body: JSON.stringify({ tasks: reponse.Items }),
+        };
+      }
+      case ROUTEKEY_GET_REMAINING_TASKS: {
+        const docClient = createDocClient();
+        const reponse = await docClient
+          .query({
+            IndexName: "ix-completed",
+            TableName: "tasks",
+            KeyConditionExpression: "#completed = :v_completed",
+            ExpressionAttributeNames: {
+              "#completed": "completed",
+            },
+            ExpressionAttributeValues: {
+              ":v_completed": 0,
             },
           })
           .promise();

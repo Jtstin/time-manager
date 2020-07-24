@@ -61,12 +61,8 @@ export default function Schedule() {
               <div className="priority-tasks">
                 <div className="priority-task">
                   <div>
-                    {tasks.map((task, index) => (
-                      <Task
-                        name={task.name}
-                        dueBy={task.dueBy}
-                        priority={task.priority}
-                      />
+                    {tasks.map((task) => (
+                      <Task key={`hp-${task.id}`} {...task} />
                     ))}
                   </div>
                 </div>

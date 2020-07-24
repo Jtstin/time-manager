@@ -1,3 +1,5 @@
+import { api } from "./api";
+
 export namespace models {
   export enum Priority {
     High = "High",
@@ -10,10 +12,11 @@ export namespace models {
   _priorityMap[Priority.Low] = 3;
   export const priorityMap = { ..._priorityMap };
   export interface Task {
+    id: number;
     name: string;
     dueBy: string;
     priority: Priority;
-    completed: number;
-    completedDateText: string;
+    completed?: number;
+    completedDateText?: string;
   }
 }

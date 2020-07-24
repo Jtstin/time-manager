@@ -1,15 +1,16 @@
 import React from "react";
 import { models } from "./models";
 
-type TaskProps = models.Task;
+type TaskProps = models.Task & { handleCompletion: (taskId: number) => void };
 
 export default function Task(props: TaskProps) {
+  const { id, name, dueBy, priority, handleCompletion } = props;
   return (
     <div className="task-properties">
-      <div>{props.name}</div>
-      <div>DueBy: {props.dueBy}</div>
-      <div>Priority:{props.priority}</div>
-      <input type="checkbox"></input>
+      <div>{name}</div>
+      <div>DueBy: {dueBy}</div>
+      <div>Priority:{priority}</div>
+      <input type="checkbox" onClick={() => handleCompletion(id)}></input>
     </div>
   );
 }

@@ -52,7 +52,7 @@
 
 .graph-container {
   display: flex;
-  background-color: white;
+  background-color: lightgray;
   flex: 1 0;
   padding: 2em;
   flex-direction: column;
@@ -71,6 +71,7 @@
   display: flex;
   flex: 1 0;
   border: 1px solid black;
+  background: white;
 }
 
 .task-page-header {
@@ -107,15 +108,17 @@
 .day-nav {
   display: flex;
   background-color: white;
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+  border-left: 1px solid black;
 }
 
 .event-container {
   display: flex;
   flex: 1 0;
-  background-color: thistle;
+  background-color: lightgray;
   padding: 2em;
   flex-direction: column;
-  border: 1px solid black;
 }
 
 .day {
@@ -127,7 +130,7 @@
 .priority-tasks-container {
   display: flex;
   flex: 1 0;
-  background-color: grey;
+  background-color: lightgray;
   padding: 2em;
 }
 
@@ -143,6 +146,7 @@
   border-top: 1px solid black;
   border-right: 1px solid black;
   border-left: 1px solid black;
+  border-radius: 5px;
 }
 
 .modify-events {

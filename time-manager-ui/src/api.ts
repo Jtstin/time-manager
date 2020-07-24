@@ -2,7 +2,7 @@ export namespace api {
   const apiHost = "http://localhost:3000";
   export namespace contracts {
     export interface Task {
-      id: string;
+      id: number;
       name: string;
       dueBy: string;
       priority: string;
@@ -23,6 +23,11 @@ export namespace api {
 
   export function getHighPriorityTasks(): Promise<contracts.Task[]> {
     return fetch(`${apiHost}/high-priority-tasks`)
+      .then((response) => response.json())
+      .then((data) => Promise.resolve(data.tasks));
+  }
+  export function getRemainingTasks(): Promise<contracts.Task[]> {
+    return fetch(`${apiHost}/remaining-tasks`)
       .then((response) => response.json())
       .then((data) => Promise.resolve(data.tasks));
   }

@@ -78,6 +78,11 @@ Resources:
           Properties:
             Path: /high-priority-tasks
             Method: get
+        GetRemainingTasks:
+          Type: Api
+          Properties:
+            Path: /remaining-tasks
+            Method: get
         PutTasks:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
