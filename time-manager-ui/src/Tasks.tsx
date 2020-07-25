@@ -80,11 +80,17 @@ const Tasks = () => {
   const [graphType, setGraphType] = useState(GraphType.Pie);
   const history = useHistory();
   const [tasks, setTasks] = useState<models.Task[]>([]);
+  const [filteredTasks, setFilteredTasks] = useState<models.Task[]>([]);
+  const [nameFilter, setNameFilter] = useState("");
+  const [priorityFilter, setPriorityFilter] = useState("None");
 
   useEffect(() => {
     console.log("called");
     //display for the first time
-    api.getRemainingTasks().then((result) => setTasks(result));
+    api.getRemainingTasks().then((result) => {
+      setTasks(result);
+      setFilteredTasks(result);
+    });
   }, []);
 
   const handleCompletion = (taskId: number) => {
@@ -94,6 +100,7 @@ const Tasks = () => {
     api.saveTask(mappers.toTaskContract(completedTask)).then((response) => {
       if (response.ok) {
         setTasks(remainingTasks);
+        setFilteredTasks(remainingTasks);
       }
     });
   };
@@ -105,7 +112,9 @@ const Tasks = () => {
   const handleSaveTask = (newTask) => {
     api.saveTask(newTask).then((response) => {
       if (response.status === 200) {
-        setTasks([...tasks, newTask]);
+        const newTasks = [...tasks, newTask];
+        setTasks(newTasks);
+        setFilteredTasks(newTasks);
       }
     });
   };
@@ -121,6 +130,7 @@ const Tasks = () => {
           models.priorityMap[t1.priority] - models.priorityMap[t2.priority]
       );
       setTasks(sortedTasks);
+      setFilteredTasks(sortedTasks);
       return;
     }
     const sortedTasks = [...tasks].sort(
@@ -128,6 +138,20 @@ const Tasks = () => {
         models.priorityMap[t2.priority] - models.priorityMap[t1.priority]
     );
     setTasks(sortedTasks);
+    setFilteredTasks(sortedTasks);
+  };
+
+  const handleSearch = () => {
+    let searchResult = tasks.filter(
+      (task) => task.name.indexOf(nameFilter) >= 0
+    );
+
+    if (priorityFilter !== "None") {
+      searchResult = searchResult.filter(
+        (task) => task.priority === priorityFilter
+      );
+    }
+    setFilteredTasks(searchResult);
   };
 
   return (
@@ -140,13 +164,22 @@ const Tasks = () => {
           <div className="task-container">
             <div className="task-header">
               <div className="task-filter">
-                <input type="text"></input>
-                <select>
+                <input
+                  type="text"
+                  placeholder="name"
+                  onChange={(e) => setNameFilter(e.target.value)}
+                ></input>
+                <select
+                  onChange={(e) => {
+                    setPriorityFilter(e.currentTarget.value);
+                  }}
+                >
+                  <option value="None">None</option>
                   <option value="High">High</option>
                   <option value="Medium">Medium</option>
                   <option value="Low">Low</option>
                 </select>
-                <button>Search</button>
+                <button onClick={handleSearch}>Search</button>
               </div>
               <div className="task-sort">
                 <div>Sort By: &nbsp; </div>
@@ -157,7 +190,7 @@ const Tasks = () => {
               </div>
             </div>
             <div className="task-list">
-              {tasks.map((task) => (
+              {filteredTasks.map((task) => (
                 <Task
                   key={`tl-${task.id}`}
                   {...task}
