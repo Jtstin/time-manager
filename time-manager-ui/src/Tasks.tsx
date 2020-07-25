@@ -23,23 +23,17 @@ function getGraph(graphType: GraphType) {
         chartType="ColumnChart"
         loader={<div>Loading Chart</div>}
         data={[
-          ["day", "last week", "this week"],
-          ["Mon", 650, 750],
-          ["Tue", 550, 570],
-          ["Wed", 600, 580],
-          ["Thu", 700, 700],
-          ["today", 900, 99],
+          ["day", "last week"],
+          ["Mon", 650],
+          ["Tue", 550],
+          ["Wed", 600],
+          ["Thu", 700],
+          ["today", 900],
         ]}
         options={{
           hAxis: {
             title: "Day of week",
             minValue: 0,
-          },
-          vAxis: {
-            title: "Order Count",
-          },
-          legend: {
-            position: "bottom",
           },
         }}
       />
@@ -53,20 +47,17 @@ function getGraph(graphType: GraphType) {
       chartType="PieChart"
       loader={<div>Loading Chart</div>}
       data={[
-        ["day", "last week", "this week"],
-        ["Mon", 650, 750],
-        ["Tue", 550, 570],
-        ["Wed", 600, 580],
-        ["Thu", 700, 700],
-        ["today", 900, 99],
+        ["day", "this week"],
+        ["Mon", 650],
+        ["Tue", 550],
+        ["Wed", 600],
+        ["Thu", 700],
+        ["today", 900],
       ]}
       options={{
         hAxis: {
           title: "Day of week",
           minValue: 0,
-        },
-        vAxis: {
-          title: "Order Count",
         },
         legend: {
           position: "bottom",

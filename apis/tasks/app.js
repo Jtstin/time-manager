@@ -3,6 +3,7 @@ const ROUTEKEY_GET_TASKS = "GET /tasks";
 const ROUTEKEY_GET_REMAINING_TASKS = "GET /remaining-tasks";
 const ROUTEKEY_GET_HIGH_PRIORITY_TASKS = "GET /high-priority-tasks";
 const ROUTEKEY_PUT_TASKS = "PUT /tasks/{taskId}";
+const ROUTEKEY_GET_COMPLETED_TASKS_SUMMARY = "GET /completed-tasks-summary";
 
 function createDocClient() {
   const endpoint = process.env.DYNAMODB_ENDPOINT;
@@ -66,6 +67,29 @@ exports.lambdaHandler = async (event, context) => {
             },
             ExpressionAttributeValues: {
               ":v_completed": 0,
+            },
+          })
+          .promise();
+        return {
+          headers,
+          statusCode: 200,
+          body: JSON.stringify({ tasks: reponse.Items }),
+        };
+      }
+      case ROUTEKEY_GET_COMPLETED_TASKS_SUMMARY: {
+        const docClient = createDocClient();
+        const reponse = await docClient
+          .query({
+            IndexName: "ix-completed",
+            TableName: "tasks",
+            KeyConditionExpression:
+              "#completed BETWEEN :v_completed_start and :v_completed_end",
+            ExpressionAttributeNames: {
+              "#completed": "completed",
+            },
+            ExpressionAttributeValues: {
+              ":v_completed_start": 0,
+              ":v_completed_end": 0,
             },
           })
           .promise();
