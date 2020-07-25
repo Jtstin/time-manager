@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Task from "./Task";
 import Chart from "react-google-charts";
-import { NewTask } from "./newTask";
+import { NewTask } from "./NewTask";
 import { models } from "./models";
 import { api } from "./api";
 import { mappers } from "./mappers";

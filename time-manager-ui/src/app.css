@@ -84,6 +84,47 @@
   flex: 1 0;
 }
 
+.new-task-error {
+  display: flex;
+  min-height: 2em;
+  color: red;
+}
+
+.new-task-name {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0;
+}
+.new-task-name > input {
+  min-height: 2em;
+}
+
+.new-task-date {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0;
+}
+.new-task-date > input {
+  min-height: 2em;
+}
+
+.new-task-priority {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0;
+}
+.new-task-priority > select {
+  min-height: 2em;
+}
+
+.new-task-add {
+  display: flex;
+  flex-direction: column;
+  min-height: 2em;
+}
+.new-task-add > button {
+  min-height: 2em;
+}
 /* ------ Schedule ------ */
 
 .schedule-page {
