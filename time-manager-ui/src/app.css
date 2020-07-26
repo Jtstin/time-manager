@@ -4,6 +4,13 @@
   background-color: rgb(132, 133, 134);
 }
 
+.error-message {
+  display: flex;
+  flex: 1 0;
+  min-height: 2em;
+  color: red;
+}
+
 /* ------ Tasks ------ */
 
 .task-page {
@@ -82,12 +89,6 @@
 .task-page-content {
   display: flex;
   flex: 1 0;
-}
-
-.new-task-error {
-  display: flex;
-  min-height: 2em;
-  color: red;
 }
 
 .new-task-name {
@@ -192,26 +193,26 @@
 
 .modify-events {
   display: flex;
-  background-color: white;
-  border: 1px solid black;
-}
-
-.modify-events > div {
-  display: flex;
-  padding: 0.5em;
-  flex: 1 0;
 }
 
 .modify-events > div:first-child {
   flex: 2 0;
 }
 
-.modify-events > div > * {
-  padding: 0.5em;
+.modify-event-button {
   flex: 1 0;
-  border-radius: 5px;
-  border-width: 0.2px;
-  border-color: lightgray;
+  min-height: 2em;
+}
+.new-event-name {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0;
+}
+
+.new-event-time {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0;
 }
 
 .priority-tasks {
