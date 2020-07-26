@@ -13,6 +13,7 @@ export namespace api {
       priority: string;
       completed: number;
     }
+    export type DayCount = [string, number];
     export interface Event {
       id: string;
       name: string;
@@ -36,7 +37,11 @@ export namespace api {
       .then((response) => response.json())
       .then((data) => Promise.resolve(data.tasks));
   }
-
+  export function getCompletedTaskSummary(): Promise<contracts.DayCount[]> {
+    return fetch(`${getApiBaseURL()}/completed-tasks-summary`)
+      .then((response) => response.json())
+      .then((data) => Promise.resolve(data.summary));
+  }
   export function saveTask(task: contracts.Task): Promise<Response> {
     return fetch(`${getApiBaseURL()}/tasks/${task.id}`, {
       method: "PUT",

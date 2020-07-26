@@ -12,7 +12,7 @@ enum GraphType {
   Pie = "pie",
 }
 
-function getGraph(graphType: GraphType) {
+function getGraph(graphType: GraphType, dayCounts: api.contracts.DayCount[]) {
   const height = 600;
   const width = 600;
   if (graphType === GraphType.Bar) {
@@ -22,24 +22,11 @@ function getGraph(graphType: GraphType) {
         height={height}
         chartType="ColumnChart"
         loader={<div>Loading Chart</div>}
-        data={[
-          ["day", "last week", "this week"],
-          ["Mon", 650, 750],
-          ["Tue", 550, 570],
-          ["Wed", 600, 580],
-          ["Thu", 700, 700],
-          ["today", 900, 99],
-        ]}
+        data={[["day", "completedTaskCount"], ...dayCounts]}
         options={{
           hAxis: {
             title: "Day of week",
             minValue: 0,
-          },
-          vAxis: {
-            title: "Order Count",
-          },
-          legend: {
-            position: "bottom",
           },
         }}
       />
@@ -52,21 +39,11 @@ function getGraph(graphType: GraphType) {
       height={height}
       chartType="PieChart"
       loader={<div>Loading Chart</div>}
-      data={[
-        ["day", "last week", "this week"],
-        ["Mon", 650, 750],
-        ["Tue", 550, 570],
-        ["Wed", 600, 580],
-        ["Thu", 700, 700],
-        ["today", 900, 99],
-      ]}
+      data={[["day", "completedTaskCount"], ...dayCounts]}
       options={{
         hAxis: {
           title: "Day of week",
           minValue: 0,
-        },
-        vAxis: {
-          title: "Order Count",
         },
         legend: {
           position: "bottom",
@@ -83,13 +60,17 @@ const Tasks = () => {
   const [filteredTasks, setFilteredTasks] = useState<models.Task[]>([]);
   const [nameFilter, setNameFilter] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("None");
+  const [completedTaskSummary, setCompletedTaskSummary] = useState([]);
 
   useEffect(() => {
-    console.log("called");
     //display for the first time
     api.getRemainingTasks().then((result) => {
       setTasks(result);
       setFilteredTasks(result);
+    });
+
+    api.getCompletedTaskSummary().then((result) => {
+      setCompletedTaskSummary(result);
     });
   }, []);
 
@@ -214,7 +195,9 @@ const Tasks = () => {
               </select>
             </div>
             <div className="graph-section">
-              <div className="graph">{getGraph(graphType)}</div>
+              <div className="graph">
+                {getGraph(graphType, completedTaskSummary)}
+              </div>
             </div>
           </div>
         </div>
