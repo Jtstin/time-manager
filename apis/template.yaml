@@ -92,4 +92,4 @@ Resources:
           Type: Api
           Properties:
             Path: /completed-tasks-summary
-            Method: put
+            Method: get
