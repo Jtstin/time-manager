@@ -63,7 +63,7 @@ export function NewTask(props: NewTaskProps) {
             setNameErrMsg("");
           }}
         ></input>
-        <div className="new-task-error">{nameErrMsg}</div>
+        <div className="error-message">{nameErrMsg}</div>
       </div>
       <div className="new-task-date">
         <input
@@ -73,7 +73,7 @@ export function NewTask(props: NewTaskProps) {
             setDateErrMsg("");
           }}
         ></input>
-        <div className="new-task-error">{dateErrMsg}</div>
+        <div className="error-message">{dateErrMsg}</div>
       </div>
       <div className="new-task-priority">
         <select
@@ -88,11 +88,11 @@ export function NewTask(props: NewTaskProps) {
           </option>
           <option value={models.Priority.Low}>{models.Priority.Low}</option>
         </select>
-        <div className="new-task-error"></div>
+        <div className="error-message"></div>
       </div>
       <div className="new-task-add">
         <button onClick={handleSaveTask}>Add</button>
-        <div className="new-task-error"></div>
+        <div className="error-message"></div>
       </div>
     </div>
   );
