@@ -1,5 +1,10 @@
+function getApiBaseURL() {
+  if (window.location.href.indexOf("localhost") >= 0) {
+    return "http://localhost:3000";
+  }
+  return "https://time-manager.kahgeh.com/api";
+}
 export namespace api {
-  const apiHost = "http://localhost:3000";
   export namespace contracts {
     export interface Task {
       id: number;
@@ -16,37 +21,37 @@ export namespace api {
     }
   }
   export function getTasks(): Promise<contracts.Task[]> {
-    return fetch(`${apiHost}/tasks`)
+    return fetch(`${getApiBaseURL()}/tasks`)
       .then((response) => response.json())
       .then((data) => Promise.resolve(data.tasks));
   }
 
   export function getHighPriorityTasks(): Promise<contracts.Task[]> {
-    return fetch(`${apiHost}/high-priority-tasks`)
+    return fetch(`${getApiBaseURL()}/high-priority-tasks`)
       .then((response) => response.json())
       .then((data) => Promise.resolve(data.tasks));
   }
   export function getRemainingTasks(): Promise<contracts.Task[]> {
-    return fetch(`${apiHost}/remaining-tasks`)
+    return fetch(`${getApiBaseURL()}/remaining-tasks`)
       .then((response) => response.json())
       .then((data) => Promise.resolve(data.tasks));
   }
 
   export function saveTask(task: contracts.Task): Promise<Response> {
-    return fetch(`${apiHost}/tasks/${task.id}`, {
+    return fetch(`${getApiBaseURL()}/tasks/${task.id}`, {
       method: "PUT",
       body: JSON.stringify(task),
     });
   }
 
   export function getEvents(): Promise<contracts.Event[]> {
-    return fetch(`${apiHost}/events`)
+    return fetch(`${getApiBaseURL()}/events`)
       .then((response) => response.json())
       .then((data) => Promise.resolve(data.events));
   }
 
   export function saveEvent(event: contracts.Event): Promise<Response> {
-    return fetch(`${apiHost}/events/${event.id}`, {
+    return fetch(`${getApiBaseURL()}/events/${event.id}`, {
       method: "PUT",
       body: JSON.stringify(event),
     });
