@@ -82,6 +82,9 @@ const Tasks = () => {
       if (response.ok) {
         setTasks(remainingTasks);
         setFilteredTasks(remainingTasks);
+        api.getCompletedTaskSummary().then((result) => {
+          setCompletedTaskSummary(result);
+        });
       }
     });
   };
