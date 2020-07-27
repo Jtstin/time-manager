@@ -7,7 +7,9 @@ interface NewEventProps {
 function generateId() {
   return Date.now();
 }
-
+function isEndTimeEalierThanStartTime(timeStart, timeEnd) {
+  return timeEnd < timeStart;
+}
 export function NewEvent(props: NewEventProps) {
   const [name, setName] = useState("");
   const [timeStart, setTimeStart] = useState("");
@@ -27,6 +29,10 @@ export function NewEvent(props: NewEventProps) {
     }
     if (timeEnd === "") {
       setTimeEndErrMsg("Cannot be empty");
+      hasValidationError = true;
+    }
+    if (isEndTimeEalierThanStartTime(timeStart, timeEnd)) {
+      setTimeEndErrMsg("Event end time cannot be earlier than start time");
       hasValidationError = true;
     }
     if (hasValidationError) {
