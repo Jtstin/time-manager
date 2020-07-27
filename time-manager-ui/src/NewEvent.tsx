@@ -84,12 +84,6 @@ export function NewEvent(props: NewEventProps) {
         </div>
         <div className="error-message"></div>
       </div>
-      <div>
-        <div className="modify-event-button">
-          <button>Edit</button>
-        </div>
-        <div className="error-message"></div>
-      </div>
     </div>
   );
 }
