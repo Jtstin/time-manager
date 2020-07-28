@@ -18,7 +18,7 @@ export default function Schedule() {
 
   const handleSaveEvent = (newEvent) => {
     api.saveEvent(newEvent).then((response) => {
-      if (response.status === 200) {
+      if (response.ok) {
         setEvents([...events, newEvent]);
       }
     });
@@ -27,7 +27,16 @@ export default function Schedule() {
   const handleTaskButtonClick = () => {
     history.push("/tasks");
   };
-
+  const handleDeleteEvent = (eventId) => {
+    api.deleteEvent(eventId).then((response) => {
+      if (response.ok) {
+        const newEventList = [...events].filter(
+          (event) => event.id !== eventId
+        );
+        setEvents(newEventList);
+      }
+    });
+  };
   return (
     <div className="main-container">
       <div className="schedule-page">
@@ -67,9 +76,11 @@ export default function Schedule() {
                 ) => (
                   <IndiEvent
                     key={`tl-${event.id}`}
+                    eventId={event.id}
                     name={event.name}
                     timeStart={event.timeStart}
                     timeEnd={event.timeEnd}
+                    handleDelete={handleDeleteEvent}
                     isEditMode={isEditMode}
                   ></IndiEvent>
                 ))}

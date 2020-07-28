@@ -15,7 +15,7 @@ export namespace api {
     }
     export type DayCount = [string, number];
     export interface Event {
-      id: string;
+      id: number;
       name: string;
       timeStart: string;
       timeEnd: string;
@@ -59,6 +59,11 @@ export namespace api {
     return fetch(`${getApiBaseURL()}/events/${event.id}`, {
       method: "PUT",
       body: JSON.stringify(event),
+    });
+  }
+  export function deleteEvent(eventId: number): Promise<Response> {
+    return fetch(`${getApiBaseURL()}/events/${eventId}`, {
+      method: "DELETE",
     });
   }
 }

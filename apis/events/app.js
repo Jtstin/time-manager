@@ -1,6 +1,7 @@
 const AWS = require("aws-sdk");
 const ROUTEKEY_GET_EVENTS = "GET /events";
 const ROUTEKEY_PUT_EVENTS = "PUT /events/{eventId}";
+const ROUTEKEY_DELETE_EVENTS = "DELETE /events/{eventId}";
 
 function createDocClient() {
   const endpoint = process.env.DYNAMODB_ENDPOINT;
@@ -39,6 +40,17 @@ exports.lambdaHandler = async (event, context) => {
         const docClient = createDocClient();
         await docClient
           .put({ TableName: "events", Item: { id: eventId, ...tmEvent } })
+          .promise();
+        return {
+          headers,
+          statusCode: 200,
+        };
+      }
+      case ROUTEKEY_DELETE_EVENTS: {
+        const eventId = event.pathParameters.eventId;
+        const docClient = createDocClient();
+        await docClient
+          .delete({ TableName: "events", Key: { id: Number(eventId) } })
           .promise();
         return {
           headers,
