@@ -6,18 +6,71 @@ import { NewEvent } from "./NewEvent";
 import { api } from "./api";
 import IndiEvent from "./IndiEvent";
 import { models } from "./models";
+enum NavigationDirection {
+  forward,
+  backwards,
+}
+const DayNumberToDayText = {
+  0: "Sun",
+  1: "Mon",
+  2: "Tue",
+  3: "Wed",
+  4: "Thu",
+  5: "Fri",
+  6: "Sat",
+};
+function getDateText(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function getToday() {
+  const now = new Date();
+  return getDateText(now);
+}
 
 export default function Schedule() {
+  const [currentDate, setCurrentDate] = useState("");
+  const [currentDayOfTheWeek, setCurrentDayOfTheWeek] = useState("");
   const [tasks, setTasks] = useState([]);
   const [events, setEvents] = useState([]);
   const [isEditMode, setEditMode] = useState(false);
   useEffect(() => {
-    api.getEvents().then((result) => setEvents(result));
+    const today = getToday();
+    setCurrentDate(today);
+    const dayOfWeekNumber = new Date(today).getDay();
+    setCurrentDayOfTheWeek(DayNumberToDayText[dayOfWeekNumber]);
+    api.getEvents(today).then((result) => setEvents(result));
     api.getHighPriorityTasks().then((result) => setTasks(result));
   }, []);
 
+  const handleNavigateDate = (direction: NavigationDirection) => {
+    if (direction === NavigationDirection.forward) {
+      const nextDayNumber = Date.parse(currentDate) + 1000 * 60 * 60 * 24;
+      const nextDay = new Date(nextDayNumber);
+      const nextDayText = getDateText(nextDay);
+      const nextDayOfTheWeek = DayNumberToDayText[nextDay.getDay()];
+      api.getEvents(nextDayText).then((result) => {
+        setEvents(result);
+        setCurrentDate(nextDayText);
+        setCurrentDayOfTheWeek(nextDayOfTheWeek);
+      });
+      return;
+    }
+    const prevDayNumber = Date.parse(currentDate) - 1000 * 60 * 60 * 24;
+    const prevDay = new Date(prevDayNumber);
+    const prevDayText = getDateText(prevDay);
+    const prevDayOfTheWeek = DayNumberToDayText[prevDay.getDay()];
+    api.getEvents(prevDayText).then((result) => {
+      setEvents(result);
+      setCurrentDate(prevDayText);
+      setCurrentDayOfTheWeek(prevDayOfTheWeek);
+    });
+  };
   const handleSaveEvent = (newEvent) => {
-    api.saveEvent(newEvent).then((response) => {
+    api.saveEvent(currentDate, newEvent).then((response) => {
       if (response.ok) {
         setEvents([...events, newEvent]);
       }
@@ -64,9 +117,23 @@ export default function Schedule() {
                 />
               </div>
               <div className="day-nav">
-                <button>{"<"}</button>
-                <div className="day">Monday</div>
-                <button>{">"}</button>
+                <button
+                  onClick={() =>
+                    handleNavigateDate(NavigationDirection.backwards)
+                  }
+                >
+                  {"<"}
+                </button>
+                <div className="day">
+                  {currentDayOfTheWeek}({currentDate})
+                </div>
+                <button
+                  onClick={() =>
+                    handleNavigateDate(NavigationDirection.forward)
+                  }
+                >
+                  {">"}
+                </button>
               </div>
               <div className="events">
                 {" "}

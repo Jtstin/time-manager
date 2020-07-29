@@ -49,18 +49,22 @@ export namespace api {
     });
   }
 
-  export function getEvents(): Promise<contracts.Event[]> {
-    return fetch(`${getApiBaseURL()}/events`)
+  export function getEvents(eventDate: string): Promise<contracts.Event[]> {
+    return fetch(`${getApiBaseURL()}/events/${eventDate}`)
       .then((response) => response.json())
       .then((data) => Promise.resolve(data.events));
   }
 
-  export function saveEvent(event: contracts.Event): Promise<Response> {
-    return fetch(`${getApiBaseURL()}/events/${event.id}`, {
+  export function saveEvent(
+    eventDate: string,
+    event: contracts.Event
+  ): Promise<Response> {
+    return fetch(`${getApiBaseURL()}/events/${eventDate}/${event.id}`, {
       method: "PUT",
       body: JSON.stringify(event),
     });
   }
+
   export function deleteEvent(eventId: number): Promise<Response> {
     return fetch(`${getApiBaseURL()}/events/${eventId}`, {
       method: "DELETE",

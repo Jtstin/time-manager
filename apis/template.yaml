@@ -47,17 +47,17 @@ Resources:
         GetEvents:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /events
+            Path: /events/{eventDate}
             Method: get
         PutEvents:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /events/{eventId}
+            Path: /events/{eventDate}/{eventId}
             Method: put
         DeleteEvents:
           Type: Api
           Properties:
-            Path: /events/{eventId}
+            Path: /events/{eventDate}/{eventId}
             Method: delete
   TasksFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction

@@ -1,8 +1,9 @@
 const AWS = require("aws-sdk");
-const ROUTEKEY_GET_EVENTS = "GET /events";
-const ROUTEKEY_PUT_EVENTS = "PUT /events/{eventId}";
-const ROUTEKEY_DELETE_EVENTS = "DELETE /events/{eventId}";
-
+const ROUTEKEY_GET_EVENTS = "GET /events/{eventDate}";
+const ROUTEKEY_PUT_EVENTS = "PUT /events/{eventDate}/{eventId}";
+const ROUTEKEY_DELETE_EVENTS = "DELETE /events/{eventDate}/{eventId}";
+const Hour = 1000 * 60 * 60;
+const DefaultUserId = 1;
 function createDocClient() {
   const endpoint = process.env.DYNAMODB_ENDPOINT;
   if (endpoint === "notset") {
@@ -12,7 +13,6 @@ function createDocClient() {
     endpoint,
   });
 }
-
 exports.lambdaHandler = async (event, context) => {
   const webClientOrigin = process.env.WEB_CLIENT_ORIGIN; //Pulls the web client origin from the environment variable, it removes all single quotation marks
   const headers = {
@@ -25,8 +25,25 @@ exports.lambdaHandler = async (event, context) => {
   try {
     switch (routeKey) {
       case ROUTEKEY_GET_EVENTS: {
+        const eventDate = event.pathParameters.eventDate;
         const docClient = createDocClient();
-        const reponse = await docClient.scan({ TableName: "events" }).promise();
+
+        const reponse = await docClient
+          .query({
+            IndexName: "ix-event-date",
+            TableName: "events",
+            KeyConditionExpression:
+              "#userId = :v_userId and #eventDate =:v_eventDate",
+            ExpressionAttributeNames: {
+              "#userId": "userId",
+              "#eventDate": "eventDate",
+            },
+            ExpressionAttributeValues: {
+              ":v_userId": DefaultUserId,
+              ":v_eventDate": eventDate,
+            },
+          })
+          .promise();
 
         return {
           headers,
@@ -36,10 +53,14 @@ exports.lambdaHandler = async (event, context) => {
       }
       case ROUTEKEY_PUT_EVENTS: {
         const eventId = event.pathParameters.eventId;
+        const eventDate = event.pathParameters.eventDate;
         const tmEvent = JSON.parse(event.body);
         const docClient = createDocClient();
         await docClient
-          .put({ TableName: "events", Item: { id: eventId, ...tmEvent } })
+          .put({
+            TableName: "events",
+            Item: { id: eventId, userId: DefaultUserId, eventDate, ...tmEvent },
+          })
           .promise();
         return {
           headers,
