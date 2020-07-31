@@ -81,7 +81,7 @@ export default function Schedule() {
     history.push("/tasks");
   };
   const handleDeleteEvent = (eventId) => {
-    api.deleteEvent(eventId).then((response) => {
+    api.deleteEvent(currentDate, eventId).then((response) => {
       if (response.ok) {
         const newEventList = [...events].filter(
           (event) => event.id !== eventId

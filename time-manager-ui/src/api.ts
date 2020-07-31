@@ -65,8 +65,8 @@ export namespace api {
     });
   }
 
-  export function deleteEvent(eventId: number): Promise<Response> {
-    return fetch(`${getApiBaseURL()}/events/${eventId}`, {
+  export function deleteEvent(eventDate, eventId: number): Promise<Response> {
+    return fetch(`${getApiBaseURL()}/events/${eventDate}/${eventId}`, {
       method: "DELETE",
     });
   }
