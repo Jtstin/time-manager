@@ -5,7 +5,8 @@ import Task from "./Task";
 import { NewEvent } from "./NewEvent";
 import { api } from "./api";
 import IndiEvent from "./IndiEvent";
-import { models } from "./models";
+import { redirectToLoginWhenTokenNotFound } from "./accessToken";
+
 enum NavigationDirection {
   forward,
   backwards,
@@ -37,7 +38,10 @@ export default function Schedule() {
   const [tasks, setTasks] = useState([]);
   const [events, setEvents] = useState([]);
   const [isEditMode, setEditMode] = useState(false);
+  const history = useHistory();
+
   useEffect(() => {
+    redirectToLoginWhenTokenNotFound(history);
     const today = getToday();
     setCurrentDate(today);
     const dayOfWeekNumber = new Date(today).getDay();
@@ -76,7 +80,7 @@ export default function Schedule() {
       }
     });
   };
-  const history = useHistory();
+
   const handleTaskButtonClick = () => {
     history.push("/tasks");
   };

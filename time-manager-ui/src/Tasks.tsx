@@ -6,6 +6,7 @@ import { NewTask } from "./NewTask";
 import { models } from "./models";
 import { api } from "./api";
 import { mappers } from "./mappers";
+import { redirectToLoginWhenTokenNotFound } from "./accessToken";
 
 enum GraphType {
   Bar = "bar",
@@ -55,15 +56,15 @@ function getGraph(graphType: GraphType, dayCounts: api.contracts.DayCount[]) {
 
 const Tasks = () => {
   const [graphType, setGraphType] = useState(GraphType.Pie);
-  const history = useHistory();
   const [tasks, setTasks] = useState<models.Task[]>([]);
   const [filteredTasks, setFilteredTasks] = useState<models.Task[]>([]);
   const [nameFilter, setNameFilter] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("None");
   const [completedTaskSummary, setCompletedTaskSummary] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
-    //display for the first time
+    redirectToLoginWhenTokenNotFound(history);
     api.getRemainingTasks().then((result) => {
       setTasks(result);
       setFilteredTasks(result);

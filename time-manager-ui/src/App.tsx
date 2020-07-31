@@ -11,6 +11,7 @@ const App = () => {
       <Switch>
         <Route exact path="/tasks" component={Tasks} />
         <Route exact path="/schedule" component={Schedule} />
+        <Route exact path="/login" component={Login} />
         <Route exact path="*" component={Tasks} />
       </Switch>
     </BrowserRouter>
