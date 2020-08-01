@@ -70,4 +70,18 @@ export namespace api {
       method: "DELETE",
     });
   }
+
+  export function login(password: string): Promise<string> {
+    return fetch(`${getApiBaseURL()}/login`, {
+      method: "POST",
+      body: JSON.stringify({ password }),
+    }).then((response) => {
+      if (response.ok) {
+        return response
+          .json()
+          .then((tokenObject) => Promise.resolve(tokenObject.accessToken));
+      }
+      return Promise.resolve(null);
+    });
+  }
 }

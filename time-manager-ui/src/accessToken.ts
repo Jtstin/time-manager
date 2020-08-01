@@ -13,3 +13,11 @@ export function redirectToLoginWhenTokenNotFound(history) {
     history.push("/login");
   }
 }
+
+export function getHeaderWithBearerToken() {
+  const accessToken = window.sessionStorage.getItem(AccessToken);
+  return {
+    authorization: `Bearer ${accessToken}`,
+    "Content-Type": "application/json",
+  };
+}

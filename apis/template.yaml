@@ -15,7 +15,6 @@ Description: >
 
   Sample SAM Template for time-manager-app
 
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
     Timeout: 3
@@ -98,3 +97,19 @@ Resources:
           Properties:
             Path: /completed-tasks-summary
             Method: get
+  LoginFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: login
+      Handler: app.lambdaHandler
+      Runtime: nodejs12.x
+      Environment:
+        Variables:
+          WEB_CLIENT_ORIGIN: !Ref WebClientOrigin
+          DYNAMODB_ENDPOINT: !Ref DyanmoDbEndpoint
+      Events:
+        PostAccessToken:
+          Type: Api
+          Properties:
+            Path: /login
+            Method: post
