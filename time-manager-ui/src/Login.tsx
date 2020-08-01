@@ -28,7 +28,10 @@ const Login = () => {
           type="password"
           id="pw"
           name="pw"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setLoginErrMsg("");
+          }}
         ></input>
         <div>{loginErrMsg}</div>
         <button onClick={handleSaveToken}>Login</button>
