@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+DYNAMO_ENDPOINT=http://localhost:8000
+DB_CONTAINER_NAME=time-manager-db
+
+runningContainer=$(docker ps -a --filter "name=$DB_CONTAINER_NAME" --filter "status=running" --format {{.ID}})
+if [ $runningContainer ]
+    then echo "$DB_CONTAINER_NAME already running." 
+fi
+
+exitedContainer=$(docker ps -a --filter "name=$DB_CONTAINER_NAME" --filter "status=exited" --format {{.ID}})
+if [ $exitedContainer ]
+    then 
+    echo "starting db container"
+    docker start $exitedContainer 
+    echo "db container started"
+fi
+
+if [ -z "$exitedContainer" ] && [ -z "$runningContainer" ]
+    then 
+    echo "pulling dynamodb-local and running in the background" 
+    docker run -d --name $DB_CONTAINER_NAME -p 8000:8000 amazon/dynamodb-local
+    echo "db container started"
+fi
+
+TABLE_NAME=tasks
+QUERY="TableNames[?contains(@,\`$TABLE_NAME\`) == \`true\`]"
+table=$(aws dynamodb list-tables --endpoint-url http://localhost:8000 --query "$QUERY"  --output text)
+if [ -z "$table" ]
+    then
+    echo "creating table $TABLE_NAME"
+    aws dynamodb create-table --cli-input-json file://table-$TABLE_NAME.json --endpoint-url $DYNAMO_ENDPOINT
+    echo "table $TABLE_NAME created"
+fi
+
+TABLE_NAME=events
+QUERY="TableNames[?contains(@,\`$TABLE_NAME\`) == \`true\`]"
+table=$(aws dynamodb list-tables --endpoint-url http://localhost:8000 --query "$QUERY"  --output text)
+if [ -z "$table" ]
+    then
+    echo "creating table $TABLE_NAME"
+    aws dynamodb create-table --cli-input-json file://table-$TABLE_NAME.json --endpoint-url $DYNAMO_ENDPOINT
+    echo "table $TABLE_NAME created"
+fi
