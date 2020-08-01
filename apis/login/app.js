@@ -1,4 +1,30 @@
+const { Crypto } = require("@peculiar/webcrypto");
+const crypto = new Crypto();
 const ROUTEKEY_POST_LOGIN = "POST /login";
+async function decrypt(loginRequest) {
+  const privateKeyPem = process.env.PRIVATE_KEY;
+  const privateKey = await crypto.subtle.importKey(
+    "pkcs8",
+    Buffer.from(privateKeyPem, "base64"),
+    {
+      name: "RSA-OAEP",
+      hash: { name: "SHA-1" },
+    },
+    false,
+    ["decrypt"]
+  );
+
+  const encryptedPassword = Buffer.from(loginRequest.password, "base64");
+  const decryptedBuffer = await crypto.subtle.decrypt(
+    {
+      name: "RSA-OAEP",
+    },
+    privateKey,
+    encryptedPassword
+  );
+  const password = Buffer.from(decryptedBuffer).toString("utf-8");
+  return password;
+}
 
 exports.lambdaHandler = async (event, context) => {
   const webClientOrigin = process.env.WEB_CLIENT_ORIGIN; //Pulls the web client origin from the environment variable, it removes all single quotation marks
@@ -14,7 +40,8 @@ exports.lambdaHandler = async (event, context) => {
       case ROUTEKEY_POST_LOGIN: {
         const accessToken = "token";
         const loginRequest = JSON.parse(event.body);
-        if (loginRequest.password !== "secret") {
+        const password = await decrypt(loginRequest);
+        if (password !== "secret") {
           return { headers, statusCode: 401 };
         }
         return {

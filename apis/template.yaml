@@ -9,7 +9,10 @@ Parameters:
     Type: String
     Description: dynamo DB endpoint
     Default: http://host.docker.internal:8000
-
+  PrivateKey:
+    Type: String
+    Description: Private key to decrypt password
+    Default: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCjHyBrDlEcUZrKBEiHdr6Cq2qL13g3SSck18TTerwK7k1+C2A61ow4hj1ZgUE3LsZGf9gLLI00cijD5xxzNSGf9KbOI/dz3vR2Xh9pqThf45RBi+R9WcBMjur/ZzMQ5lXEdDHxHSxaEmlbzV9qanLvd2wY6EMdo2JR8O6G3oN1bGs20vjImIVcizng4vYltuoOMSv/kh4STNx1Lcadh1t7iBB97toP4KYSuuv8s3Uq14t0kwrDaxrVKdFgn0zQ992+YT5DDvVl+eoORqbR4JJdnh10OqRtqvEPM8tXvpvc0o2gAf6I+wwM/frhLE/csJITv3qd3oTgMw7UoIg0mgAXAgMBAAECggEAGEsFmMalkBTxJf6JpK8BA/8uW3bdSZ0vOLPvoAUqexWZXIOqMv5fx01AAWlCrUqzLwL8HvyQEkxMGOd9hlor0KFutCA0H+wHi+yhkKqpzCddnX4NgG485B9Gt9Rb4mZDRgIoq+gfLPzf9v2OJRAxtMscF1Yuefv/+QRrfud65szf+52zHCcwVl7yGznriungLrNoiDDbNLE3Bb4MV6dSKAJJB1x9WBmN63alT6i0CuyrLyCcB8pkfWIPKXDeD24Vx/uGdZgmERDrchqOJMR1iUfEfdta6HbKe6PZnd3mjq2Je5hlXSK1zVk5ANOmlixBfatk2pQUHoZRENCXNWFXEQKBgQDVIbcHfowAjQ53WahvQCsEf/5hG/jbUDoxn1WKjkwSreiKlbnKn47uwgqQY5ezovC1G4UHsonbFVZnTrqvlWck7fQ+R9tFDvD6b1GcG3QcWc5YlAbAhY+O+t5nbUXT0vgmSLoEpW2ZW78ULzf7LTp8b6jnLlGVxWczc04tu4XcEQKBgQDD7lwTTa/Y7yxhqyYMUK1FSh5WJTEWBe34u33JLN/38YhBxNQB5Ln3oxpvHP38Lhi7GennThrakn3zPBlkMtKm4WWNafkftRIhBdK7bCPphXnJlKUpiVTveS4P1B6sZ3QUdCHGSoagL2TK/LmdbXXAm7p/iZASaj7uIoZ08pVhpwKBgCAxPn8gSy9OHxBB96IONDEy0A6E9hrSTGfwZDBQfAcaQ5SjNvP3E9TWdFgI4wIcK3V/maFnA1GXMHzcNHCPBYxbcNfzbJhKwHVjWRVWRDyACB3zBe4QfnWfSPagV7q+FANcWtSW1C4k4IDA/RiwZTQkfYOlyGbx8TuhP/7CY16xAoGAKXXK7hrGVzVlQtWgm4KG596jRL9h/7MJhFTIbUWdry3hE2m/IxdvcsOE2HZeGHr4qL73DAcvD4loNYxGIznN8ZpIjwAZw2fhijNdQGPFxaiE+O8HdB6nZnVSFe9g/kJ2Ac4BR6CFlGfzADEyZem/vR42/L3zSrJI1sNfiGe8zIkCgYEAoxew4rCReOgL5TLs7D92cfLjqHOjWADdRBne6jxg1QSRohlTmoWBT68RRib06M6V4PH3VodxPxHT7DgPZnuQN2D6Xs1dPgBNSk1JoqbWnQhnP61ph8fq0srq9pRrVvgDmLcmQgUh0oZFHAzPifi7SrWCZhXxlFE9zBD5XVx76kU=
 Description: >
   time-manager-app
 
@@ -130,7 +133,7 @@ Resources:
       Environment:
         Variables:
           WEB_CLIENT_ORIGIN: !Ref WebClientOrigin
-          DYNAMODB_ENDPOINT: !Ref DyanmoDbEndpoint
+          PRIVATE_KEY: !Ref PrivateKey
       Events:
         PostAccessToken:
           Type: Api
