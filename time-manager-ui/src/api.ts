@@ -99,7 +99,9 @@ export namespace api {
       if (response.ok) {
         return response
           .json()
-          .then((tokenObject) => Promise.resolve(tokenObject.accessToken));
+          .then((tokenObject: { accessToken: string }) =>
+            Promise.resolve(tokenObject.accessToken)
+          );
       }
       return Promise.resolve(null);
     });

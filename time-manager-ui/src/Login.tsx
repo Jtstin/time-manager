@@ -1,23 +1,25 @@
 import React, { useState } from "react";
 import { render } from "react-dom";
-import { saveAccessToken } from "./accessToken";
+import { saveAccessToken, str2ab, publicKey, encrypt } from "./accessToken";
 import { useHistory } from "react-router-dom";
 import { api } from "./api";
 
-const Login = () => {
+export default function Login() {
   const [password, setPassword] = useState("");
   const [loginErrMsg, setLoginErrMsg] = useState("");
   const history = useHistory();
 
   const handleSaveToken = () => {
-    api.login(password).then((token) => {
-      if (token === null) {
-        setLoginErrMsg("Incorrect Password");
-        return;
-      }
-      saveAccessToken(token);
-      history.go(-1);
-    });
+    encrypt(password)
+      .then((encryptedPassword) => api.login(encryptedPassword))
+      .then((token) => {
+        if (token === null) {
+          setLoginErrMsg("Incorrect Password");
+          return;
+        }
+        saveAccessToken(token);
+        history.go(-1);
+      });
   };
   return (
     <div className="login-page">
@@ -38,6 +40,4 @@ const Login = () => {
       </div>
     </div>
   );
-};
-
-export default Login;
+}
