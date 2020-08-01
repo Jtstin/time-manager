@@ -82,7 +82,28 @@ function createDocClient() {
     endpoint,
   });
 }
+function verifyToken(tokenHeader) {
+  if (tokenHeader === undefined || tokenHeader === null) {
+    return false;
+  }
+
+  if (tokenHeader.indexOf("Bearer") !== 0) {
+    return false;
+  }
+  const token = tokenHeader.split(" ")[1];
+  if (token !== "token") {
+    return false;
+  }
+  return true;
+}
 exports.lambdaHandler = async (event, context) => {
+  const tokenHeader = event.headers.Authorization;
+  if (!verifyToken(tokenHeader)) {
+    return {
+      headers,
+      statusCode: 401,
+    };
+  }
   const webClientOrigin = process.env.WEB_CLIENT_ORIGIN;
   const headers = {
     "Access-Control-Allow-Origin": webClientOrigin,
@@ -108,11 +129,14 @@ exports.lambdaHandler = async (event, context) => {
           .query({
             IndexName: "ix-priority",
             TableName: "tasks",
-            KeyConditionExpression: "#priority = :v_priority",
+            KeyConditionExpression:
+              "#userId = :v_userId and #priority = :v_priority",
             ExpressionAttributeNames: {
+              "#userId": "userId",
               "#priority": "priority",
             },
             ExpressionAttributeValues: {
+              ":v_userId": DefaultUserId,
               ":v_priority": "High",
             },
           })
@@ -130,7 +154,7 @@ exports.lambdaHandler = async (event, context) => {
             IndexName: "ix-completed",
             TableName: "tasks",
             KeyConditionExpression:
-              " #userId = :v_userId and #completed = :v_completed",
+              "#userId = :v_userId and #completed = :v_completed",
             ExpressionAttributeNames: {
               "#userId": "userId",
               "#completed": "completed",

@@ -1,3 +1,5 @@
+import { getHeaderWithBearerToken } from "./accessToken";
+
 function getApiBaseURL() {
   if (window.location.href.indexOf("localhost") >= 0) {
     return "http://localhost:3000";
@@ -22,23 +24,35 @@ export namespace api {
     }
   }
   export function getTasks(): Promise<contracts.Task[]> {
-    return fetch(`${getApiBaseURL()}/tasks`)
+    return fetch(`${getApiBaseURL()}/tasks`, {
+      method: "GET",
+      headers: getHeaderWithBearerToken(),
+    })
       .then((response) => response.json())
       .then((data) => Promise.resolve(data.tasks));
   }
 
   export function getHighPriorityTasks(): Promise<contracts.Task[]> {
-    return fetch(`${getApiBaseURL()}/high-priority-tasks`)
+    return fetch(`${getApiBaseURL()}/high-priority-tasks`, {
+      method: "GET",
+      headers: getHeaderWithBearerToken(),
+    })
       .then((response) => response.json())
       .then((data) => Promise.resolve(data.tasks));
   }
   export function getRemainingTasks(): Promise<contracts.Task[]> {
-    return fetch(`${getApiBaseURL()}/remaining-tasks`)
+    return fetch(`${getApiBaseURL()}/remaining-tasks`, {
+      method: "GET",
+      headers: getHeaderWithBearerToken(),
+    })
       .then((response) => response.json())
       .then((data) => Promise.resolve(data.tasks));
   }
   export function getCompletedTaskSummary(): Promise<contracts.DayCount[]> {
-    return fetch(`${getApiBaseURL()}/completed-tasks-summary`)
+    return fetch(`${getApiBaseURL()}/completed-tasks-summary`, {
+      method: "GET",
+      headers: getHeaderWithBearerToken(),
+    })
       .then((response) => response.json())
       .then((data) => Promise.resolve(data.summary));
   }
@@ -46,11 +60,15 @@ export namespace api {
     return fetch(`${getApiBaseURL()}/tasks/${task.id}`, {
       method: "PUT",
       body: JSON.stringify(task),
+      headers: getHeaderWithBearerToken(),
     });
   }
 
   export function getEvents(eventDate: string): Promise<contracts.Event[]> {
-    return fetch(`${getApiBaseURL()}/events/${eventDate}`)
+    return fetch(`${getApiBaseURL()}/events/${eventDate}`, {
+      method: "GET",
+      headers: getHeaderWithBearerToken(),
+    })
       .then((response) => response.json())
       .then((data) => Promise.resolve(data.events));
   }
@@ -61,6 +79,7 @@ export namespace api {
   ): Promise<Response> {
     return fetch(`${getApiBaseURL()}/events/${eventDate}/${event.id}`, {
       method: "PUT",
+      headers: getHeaderWithBearerToken(),
       body: JSON.stringify(event),
     });
   }
@@ -68,6 +87,7 @@ export namespace api {
   export function deleteEvent(eventDate, eventId: number): Promise<Response> {
     return fetch(`${getApiBaseURL()}/events/${eventDate}/${eventId}`, {
       method: "DELETE",
+      headers: getHeaderWithBearerToken(),
     });
   }
 

@@ -17,7 +17,7 @@ export function redirectToLoginWhenTokenNotFound(history) {
 export function getHeaderWithBearerToken() {
   const accessToken = window.sessionStorage.getItem(AccessToken);
   return {
-    authorization: `Bearer ${accessToken}`,
+    Authorization: `Bearer ${accessToken}`,
     "Content-Type": "application/json",
   };
 }

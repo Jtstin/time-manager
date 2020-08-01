@@ -48,16 +48,25 @@ Resources:
           Properties:
             Path: /events/{eventDate}
             Method: get
+            RequestParameters:
+              - method.request.header.Authorization:
+                  Required: true
         PutEvents:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /events/{eventDate}/{eventId}
             Method: put
+            RequestParameters:
+              - method.request.header.Authorization:
+                  Required: true
         DeleteEvents:
           Type: Api
           Properties:
             Path: /events/{eventDate}/{eventId}
             Method: delete
+            RequestParameters:
+              - method.request.header.Authorization:
+                  Required: true
   TasksFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -77,26 +86,41 @@ Resources:
           Properties:
             Path: /tasks
             Method: get
+            RequestParameters:
+              - method.request.header.Authorization:
+                  Required: true
         GetHighPriorityTasks:
           Type: Api
           Properties:
             Path: /high-priority-tasks
             Method: get
+            RequestParameters:
+              - method.request.header.Authorization:
+                  Required: true
         GetRemainingTasks:
           Type: Api
           Properties:
             Path: /remaining-tasks
             Method: get
+            RequestParameters:
+              - method.request.header.Authorization:
+                  Required: true
         PutTasks:
           Type: Api
           Properties:
             Path: /tasks/{taskId}
             Method: put
+            RequestParameters:
+              - method.request.header.Authorization:
+                  Required: true
         GetCompletedTasksSummary:
           Type: Api
           Properties:
             Path: /completed-tasks-summary
             Method: get
+            RequestParameters:
+              - method.request.header.Authorization:
+                  Required: true
   LoginFunction:
     Type: AWS::Serverless::Function
     Properties:
