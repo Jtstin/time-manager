@@ -25,10 +25,10 @@ export default function IndiEvent(props: EventProps) {
   const { eventId, name, timeStart, timeEnd, isEditMode, handleDelete } = props;
 
   return (
-    <div className="task-properties">
+    <div className="row-properties">
       <div>{name}</div>
-      <div>{timeStart}</div>
-      <div>{timeEnd}</div>
+      <div>Time Start:{timeStart}</div>
+      <div>Time End:{timeEnd}</div>
       {getDeleteButton(isEditMode, () => handleDelete(eventId))}
     </div>
   );
