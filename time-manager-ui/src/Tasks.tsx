@@ -64,7 +64,9 @@ const Tasks = () => {
   const history = useHistory();
 
   useEffect(() => {
-    redirectToLoginWhenTokenNotFound(history);
+    if (redirectToLoginWhenTokenNotFound(history)) {
+      return;
+    }
     api.getRemainingTasks().then((result) => {
       setTasks(result);
       setFilteredTasks(result);

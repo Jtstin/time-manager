@@ -41,7 +41,9 @@ export default function Schedule() {
   const history = useHistory();
 
   useEffect(() => {
-    redirectToLoginWhenTokenNotFound(history);
+    if (redirectToLoginWhenTokenNotFound(history)) {
+      return;
+    }
     const today = getToday();
     setCurrentDate(today);
     const dayOfWeekNumber = new Date(today).getDay();
