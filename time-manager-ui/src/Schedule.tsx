@@ -108,7 +108,7 @@ export default function Schedule() {
     <div className="main-container">
       <div className="schedule-page">
         <div className="schedule-page-header">
-          <button onClick={handleTaskButtonClick}>Task</button>
+          <button onClick={handleTaskButtonClick}>Go To Tasks</button>
         </div>
         <div className="schedule-page-content">
           <div className="schedule-main-content">

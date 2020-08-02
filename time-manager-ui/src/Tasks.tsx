@@ -155,7 +155,7 @@ const Tasks = () => {
     <div className="main-container">
       <div className="task-page">
         <div className="task-page-header">
-          <button onClick={handleScheduleButtonClick}>Schedule </button>
+          <button onClick={handleScheduleButtonClick}>Go To Schedule</button>
         </div>
         <div className="task-page-content">
           <div className="task-container">
