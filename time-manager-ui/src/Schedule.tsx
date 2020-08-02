@@ -40,6 +40,14 @@ export default function Schedule() {
   const [isEditMode, setEditMode] = useState(false);
   const history = useHistory();
 
+  const setEventsWithSort = (events) => {
+    const sortedEvents = events.sort(
+      (e1, e2) =>
+        Number(e1.timeStart.replace(new RegExp(":", "g"), "")) -
+        Number(e2.timeStart.replace(new RegExp(":", "g"), ""))
+    );
+    setEvents(sortedEvents);
+  };
   useEffect(() => {
     if (redirectToLoginWhenTokenNotFound(history)) {
       return;
@@ -48,7 +56,7 @@ export default function Schedule() {
     setCurrentDate(today);
     const dayOfWeekNumber = new Date(today).getDay();
     setCurrentDayOfTheWeek(DayNumberToDayText[dayOfWeekNumber]);
-    api.getEvents(today).then((result) => setEvents(result));
+    api.getEvents(today).then((result) => setEventsWithSort(result));
     api.getHighPriorityTasks().then((result) => setTasks(result));
   }, []);
 
@@ -59,7 +67,7 @@ export default function Schedule() {
       const nextDayText = getDateText(nextDay);
       const nextDayOfTheWeek = DayNumberToDayText[nextDay.getDay()];
       api.getEvents(nextDayText).then((result) => {
-        setEvents(result);
+        setEventsWithSort(result);
         setCurrentDate(nextDayText);
         setCurrentDayOfTheWeek(nextDayOfTheWeek);
       });
@@ -70,7 +78,7 @@ export default function Schedule() {
     const prevDayText = getDateText(prevDay);
     const prevDayOfTheWeek = DayNumberToDayText[prevDay.getDay()];
     api.getEvents(prevDayText).then((result) => {
-      setEvents(result);
+      setEventsWithSort(result);
       setCurrentDate(prevDayText);
       setCurrentDayOfTheWeek(prevDayOfTheWeek);
     });
@@ -78,7 +86,7 @@ export default function Schedule() {
   const handleSaveEvent = (newEvent) => {
     api.saveEvent(currentDate, newEvent).then((response) => {
       if (response.ok) {
-        setEvents([...events, newEvent]);
+        setEventsWithSort([...events, newEvent]);
       }
     });
   };
@@ -92,7 +100,7 @@ export default function Schedule() {
         const newEventList = [...events].filter(
           (event) => event.id !== eventId
         );
-        setEvents(newEventList);
+        setEventsWithSort(newEventList);
       }
     });
   };
