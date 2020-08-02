@@ -1,4 +1,5 @@
 const AWS = require("aws-sdk");
+const jwt = require("jsonwebtoken");
 const ROUTEKEY_GET_EVENTS = "GET /events/{eventDate}";
 const ROUTEKEY_PUT_EVENTS = "PUT /events/{eventDate}/{eventId}";
 const ROUTEKEY_DELETE_EVENTS = "DELETE /events/{eventDate}/{eventId}";
@@ -13,7 +14,36 @@ function createDocClient() {
     endpoint,
   });
 }
+function tokenIsValid(token) {
+  try {
+    const decoded = jwt.verify(token, process.env.ACCESSTOKEN_KEY);
+    return decoded.userId === DefaultUserId;
+  } catch {
+    return false;
+  }
+}
+
+function verifyToken(tokenHeader) {
+  if (tokenHeader === undefined || tokenHeader === null) {
+    return false;
+  }
+
+  if (tokenHeader.indexOf("Bearer") !== 0) {
+    return false;
+  }
+  const token = tokenHeader.split(" ")[1];
+
+  return tokenIsValid(token);
+}
+
 exports.lambdaHandler = async (event, context) => {
+  const tokenHeader = event.headers.Authorization;
+  if (!verifyToken(tokenHeader)) {
+    return {
+      headers,
+      statusCode: 401,
+    };
+  }
   const webClientOrigin = process.env.WEB_CLIENT_ORIGIN; //Pulls the web client origin from the environment variable, it removes all single quotation marks
   const headers = {
     "Access-Control-Allow-Origin": webClientOrigin,

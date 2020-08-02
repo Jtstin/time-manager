@@ -1,6 +1,15 @@
 const { Crypto } = require("@peculiar/webcrypto");
+const jwt = require("jsonwebtoken");
+
 const crypto = new Crypto();
 const ROUTEKEY_POST_LOGIN = "POST /login";
+const DefaultUserId = 1;
+function generateToken() {
+  return jwt.sign({ userId: DefaultUserId }, process.env.ACCESSTOKEN_KEY, {
+    expiresIn: "1d",
+  });
+}
+
 async function decrypt(loginRequest) {
   const privateKeyPem = process.env.PRIVATE_KEY;
   const privateKey = await crypto.subtle.importKey(
@@ -44,6 +53,7 @@ exports.lambdaHandler = async (event, context) => {
         if (password !== "secret") {
           return { headers, statusCode: 401 };
         }
+        const accessToken = generateToken();
         return {
           headers,
           body: JSON.stringify({ accessToken }),

@@ -8,7 +8,8 @@
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.714.2",
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "jsonwebtoken": "^8.5.1"
   },
   "scripts": {
     "start-dyndb-admin": "DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin"

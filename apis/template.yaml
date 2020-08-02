@@ -9,6 +9,11 @@ Parameters:
     Type: String
     Description: dynamo DB endpoint
     Default: http://host.docker.internal:8000
+  AccessTokenKey:
+    Type: String
+    Description: Secret used to generate and verify token
+    Default: SuperSecret
+    NoEcho: true
   PrivateKey:
     Type: String
     Description: Private key to decrypt password
@@ -45,6 +50,7 @@ Resources:
         Variables:
           WEB_CLIENT_ORIGIN: !Ref WebClientOrigin
           DYNAMODB_ENDPOINT: !Ref DyanmoDbEndpoint
+          ACCESSTOKEN_KEY: !Ref AccessTokenKey
       Events:
         GetEvents:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -83,6 +89,7 @@ Resources:
         Variables:
           WEB_CLIENT_ORIGIN: !Ref WebClientOrigin
           DYNAMODB_ENDPOINT: !Ref DyanmoDbEndpoint
+          ACCESSTOKEN_KEY: !Ref AccessTokenKey
       Events:
         GetTasks:
           Type: Api
@@ -134,6 +141,7 @@ Resources:
         Variables:
           WEB_CLIENT_ORIGIN: !Ref WebClientOrigin
           PRIVATE_KEY: !Ref PrivateKey
+          ACCESSTOKEN_KEY: !Ref AccessTokenKey
       Events:
         PostAccessToken:
           Type: Api

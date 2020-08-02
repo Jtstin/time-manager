@@ -1,4 +1,5 @@
 const AWS = require("aws-sdk");
+const jwt = require("jsonwebtoken");
 const ROUTEKEY_GET_TASKS = "GET /tasks";
 const ROUTEKEY_GET_REMAINING_TASKS = "GET /remaining-tasks";
 const ROUTEKEY_GET_HIGH_PRIORITY_TASKS = "GET /high-priority-tasks";
@@ -82,6 +83,16 @@ function createDocClient() {
     endpoint,
   });
 }
+
+function tokenIsValid(token) {
+  try {
+    const decoded = jwt.verify(token, process.env.ACCESSTOKEN_KEY);
+    return decoded.userId === DefaultUserId;
+  } catch {
+    return false;
+  }
+}
+
 function verifyToken(tokenHeader) {
   if (tokenHeader === undefined || tokenHeader === null) {
     return false;
@@ -91,11 +102,10 @@ function verifyToken(tokenHeader) {
     return false;
   }
   const token = tokenHeader.split(" ")[1];
-  if (token !== "token") {
-    return false;
-  }
-  return true;
+
+  return tokenIsValid(token);
 }
+
 exports.lambdaHandler = async (event, context) => {
   const tokenHeader = event.headers.Authorization;
   if (!verifyToken(tokenHeader)) {
