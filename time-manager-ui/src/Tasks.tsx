@@ -7,6 +7,7 @@ import { models } from "./models";
 import { api } from "./api";
 import { mappers } from "./mappers";
 import { redirectToLoginWhenTokenNotFound } from "./accessToken";
+import Switch from "react-switch";
 
 enum GraphType {
   Bar = "bar",
@@ -61,6 +62,7 @@ const Tasks = () => {
   const [nameFilter, setNameFilter] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("None");
   const [completedTaskSummary, setCompletedTaskSummary] = useState([]);
+  const [isEditMode, setEditMode] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -140,7 +142,15 @@ const Tasks = () => {
     }
     setFilteredTasks(searchResult);
   };
-
+  const handleDeleteTask = (taskId) => {
+    api.deleteTask(taskId).then((response) => {
+      if (response.ok) {
+        const newTaskList = [...tasks].filter((task) => task.id !== taskId);
+        setTasks(newTaskList);
+        setFilteredTasks(newTaskList);
+      }
+    });
+  };
   return (
     <div className="main-container">
       <div className="task-page">
@@ -169,11 +179,28 @@ const Tasks = () => {
                 <button onClick={handleSearch}>Search</button>
               </div>
               <div className="task-sort">
-                <div>Sort By: &nbsp; </div>
+                <div>Sort By Priority: &nbsp; </div>
                 <select onChange={handleSort}>
                   <option value="High-Low">High to Low</option>
                   <option value="Low-High">Low to High</option>
                 </select>
+              </div>
+              <div className="toggle-edit-container">
+                <Switch
+                  checked={isEditMode}
+                  onChange={() => setEditMode(!isEditMode)}
+                  onColor="#86d3ff"
+                  onHandleColor="#2693e6"
+                  handleDiameter={15}
+                  uncheckedIcon={false}
+                  checkedIcon={false}
+                  boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                  activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                  height={10}
+                  width={24}
+                  className="react-switch"
+                  id="material-switch"
+                />
               </div>
             </div>
             <div className="task-list">
@@ -182,6 +209,8 @@ const Tasks = () => {
                   key={`tl-${task.id}`}
                   {...task}
                   handleCompletion={handleCompletion}
+                  handleDelete={handleDeleteTask}
+                  isEditMode={isEditMode}
                 ></Task>
               ))}
             </div>

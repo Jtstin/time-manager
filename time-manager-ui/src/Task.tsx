@@ -1,7 +1,25 @@
 import React from "react";
 import { models } from "./models";
 
-type TaskProps = models.Task & { handleCompletion?: (taskId: number) => void };
+type TaskProps = models.Task & {
+  handleCompletion?: (taskId: number) => void;
+  isEditMode: boolean;
+  handleDelete: (eventId: number) => void;
+};
+
+function getDeleteButton(isEditMode, handleDelete) {
+  if (isEditMode) {
+    return (
+      <div>
+        <button onClick={handleDelete}>
+          <i className="material-icons delete-red">delete</i>
+        </button>
+      </div>
+    );
+  }
+  return null;
+}
+
 function getCheckbox(id: number, handleCompletion?: (taskId: number) => void) {
   if (handleCompletion) {
     return <input type="checkbox" onClick={() => handleCompletion(id)}></input>;
@@ -9,13 +27,22 @@ function getCheckbox(id: number, handleCompletion?: (taskId: number) => void) {
   return null;
 }
 export default function Task(props: TaskProps) {
-  const { id, name, dueBy, priority, handleCompletion } = props;
+  const {
+    id,
+    name,
+    dueBy,
+    priority,
+    handleCompletion,
+    isEditMode,
+    handleDelete,
+  } = props;
   return (
     <div className="row-properties">
       <div>{name}</div>
       <div>DueBy: {dueBy}</div>
       <div>Priority:{priority}</div>
       {getCheckbox(id, handleCompletion)}
+      {getDeleteButton(isEditMode, () => handleDelete(id))}
     </div>
   );
 }
