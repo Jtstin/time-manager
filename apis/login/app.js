@@ -47,10 +47,9 @@ exports.lambdaHandler = async (event, context) => {
   try {
     switch (routeKey) {
       case ROUTEKEY_POST_LOGIN: {
-        const accessToken = "token";
         const loginRequest = JSON.parse(event.body);
         const password = await decrypt(loginRequest);
-        if (password !== "secret") {
+        if (password !== process.env.PASSWORD) {
           return { headers, statusCode: 401 };
         }
         const accessToken = generateToken();
