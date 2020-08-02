@@ -137,6 +137,14 @@ Resources:
             RequestParameters:
               - method.request.header.Authorization:
                   Required: true
+        DeleteTask:
+          Type: Api
+          Properties:
+            Path: /tasks/{taskId}
+            Method: delete
+            RequestParameters:
+              - method.request.header.Authorization:
+                  Required: true
   LoginFunction:
     Type: AWS::Serverless::Function
     Properties:

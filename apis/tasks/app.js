@@ -5,6 +5,8 @@ const ROUTEKEY_GET_REMAINING_TASKS = "GET /remaining-tasks";
 const ROUTEKEY_GET_HIGH_PRIORITY_TASKS = "GET /high-priority-tasks";
 const ROUTEKEY_PUT_TASKS = "PUT /tasks/{taskId}";
 const ROUTEKEY_GET_COMPLETED_TASKS_SUMMARY = "GET /completed-tasks-summary";
+const ROUTEKEY_DELETE_TASK = "DELETE /tasks/{taskId}";
+
 const OneDay = 1000 * 60 * 60 * 24;
 const DefaultUserId = 1;
 const DayNumberToDayText = {
@@ -38,7 +40,7 @@ function getPast7DaysInclusiveOfToday(today) {
     }
     dayCount++;
   }
-  return days;
+  return days.reverse();
 }
 
 function getDayCount(completedTasks) {
@@ -155,6 +157,17 @@ exports.lambdaHandler = async (event, context) => {
           headers,
           statusCode: 200,
           body: JSON.stringify({ tasks: response.Items }),
+        };
+      }
+      case ROUTEKEY_DELETE_TASK: {
+        const taskId = event.pathParameters.taskId;
+        const docClient = createDocClient();
+        await docClient
+          .delete({ TableName: "tasks", Key: { id: Number(taskId) } })
+          .promise();
+        return {
+          headers,
+          statusCode: 200,
         };
       }
       case ROUTEKEY_GET_REMAINING_TASKS: {

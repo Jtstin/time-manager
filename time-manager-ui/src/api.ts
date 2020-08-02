@@ -91,6 +91,13 @@ export namespace api {
     });
   }
 
+  export function deleteTask(taskId: number): Promise<Response> {
+    return fetch(`${getApiBaseURL()}/tasks/${taskId}`, {
+      method: "DELETE",
+      headers: getHeaderWithBearerToken(),
+    });
+  }
+
   export function login(password: string): Promise<string> {
     return fetch(`${getApiBaseURL()}/login`, {
       method: "POST",
