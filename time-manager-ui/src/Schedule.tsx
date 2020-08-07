@@ -57,7 +57,12 @@ export default function Schedule() {
     const dayOfWeekNumber = new Date(today).getDay();
     setCurrentDayOfTheWeek(DayNumberToDayText[dayOfWeekNumber]);
     api.getEvents(today).then((result) => setEventsWithSort(result));
-    api.getHighPriorityTasks().then((result) => setTasks(result));
+    api.getHighPriorityTasks().then((tasks) => {
+      const remainingHighPriorityTasks = tasks.filter(
+        (task) => task.completed === 0
+      );
+      setTasks(remainingHighPriorityTasks);
+    });
   }, []);
 
   const handleNavigateDate = (direction: NavigationDirection) => {
