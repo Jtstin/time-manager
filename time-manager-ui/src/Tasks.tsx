@@ -15,16 +15,18 @@ enum GraphType {
 }
 
 function getGraph(graphType: GraphType, dayCounts: api.contracts.DayCount[]) {
+  // gets graph based on the day and graph type
   const height = 600;
   const width = 600;
   if (graphType === GraphType.Bar) {
+    // when graphType is GraphType.Bar then display data as bar chart otherwise display it as a pie chart
     return (
       <Chart
         width={width}
         height={height}
         chartType="ColumnChart"
         loader={<div>Loading Chart</div>}
-        data={[["day", "completedTaskCount"], ...dayCounts]}
+        data={[["day", "completedTaskCount"], ...dayCounts]} // bind completed task count for each day to graph component
         options={{
           hAxis: {
             title: "Day of week",
@@ -56,6 +58,7 @@ function getGraph(graphType: GraphType, dayCounts: api.contracts.DayCount[]) {
 }
 
 const Tasks = () => {
+  // useState allows components to have states
   const [graphType, setGraphType] = useState(GraphType.Pie);
   const [tasks, setTasks] = useState<models.Task[]>([]);
   const [filteredTasks, setFilteredTasks] = useState<models.Task[]>([]);
@@ -67,6 +70,8 @@ const Tasks = () => {
 
   useEffect(() => {
     if (redirectToLoginWhenTokenNotFound(history)) {
+      // go to login screen when login token is not found
+      // otherwise continue with tasks screen
       return;
     }
     api.getRemainingTasks().then((result) => {
@@ -80,6 +85,8 @@ const Tasks = () => {
   }, []);
 
   const handleCompletion = (taskId: number) => {
+    // saves the completed tasks
+    // and displays the new list of remaining tasks
     const completedTask = tasks.filter((task) => task.id === taskId)[0];
     const remainingTasks = tasks.filter((task) => task.id !== taskId);
     completedTask.completed = Date.now();
@@ -95,10 +102,13 @@ const Tasks = () => {
   };
 
   const handleScheduleButtonClick = () => {
+    // takes the user to schedule screen
     history.push("/schedule");
   };
 
   const handleSaveTask = (newTask) => {
+    // handleSaveTask saves the new task added
+    // and display it with the other tasks
     api.saveTask(newTask).then((response) => {
       if (response.status === 200) {
         const newTasks = [...tasks, newTask];
@@ -109,10 +119,13 @@ const Tasks = () => {
   };
 
   const handleChangeGraphType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    // changes the graph based on the enum GraphType
     setGraphType(e.currentTarget.value as GraphType);
   };
 
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    // sorts the tasks by using sort function, mapping the priority names to numbers as required by the sort function
+    // also use the sorted tasks for display
     if (e.currentTarget.value === "High-Low") {
       const sortedTasks = [...tasks].sort(
         (t1, t2) =>
@@ -131,6 +144,8 @@ const Tasks = () => {
   };
 
   const handleSearch = () => {
+    // filters tasks based on name and priority
+    // and displays new filtered list
     let searchResult = tasks.filter(
       (task) => task.name.indexOf(nameFilter) >= 0
     );
@@ -143,6 +158,8 @@ const Tasks = () => {
     setFilteredTasks(searchResult);
   };
   const handleDeleteTask = (taskId) => {
+    // deletes task based on the task id
+    // and displays new list without deleted task
     api.deleteTask(taskId).then((response) => {
       if (response.ok) {
         const newTaskList = [...tasks].filter((task) => task.id !== taskId);
@@ -152,6 +169,8 @@ const Tasks = () => {
     });
   };
   return (
+    // layout component
+    // bind handlers to events and states to display
     <div className="main-container">
       <div className="task-page">
         <div className="task-page-header">
