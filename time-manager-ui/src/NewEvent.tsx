@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 interface NewEventProps {
+  // NewEventProps allows for handler to be passed into the component
   handleSaveEvent?: (event) => void;
 }
 
@@ -8,9 +9,11 @@ function generateId() {
   return Date.now();
 }
 function isEndTimeEalierThanStartTime(timeStart, timeEnd) {
+  // checks if the time end of new event is earlier than time start
   return timeEnd < timeStart;
 }
 export function NewEvent(props: NewEventProps) {
+  // useState allows components to have states
   const [name, setName] = useState("");
   const [timeStart, setTimeStart] = useState("");
   const [timeEnd, setTimeEnd] = useState("");
@@ -18,7 +21,7 @@ export function NewEvent(props: NewEventProps) {
   const [timeEndErrMsg, setTimeEndErrMsg] = useState("");
   const [timeStartErrMsg, setTimeStartErrMsg] = useState("");
   const handleSaveEvent = () => {
-    let hasValidationError = false;
+    let hasValidationError = false; // initialise validation error to false
     if (name === "") {
       setNameErrMsg("Cannot be empty");
       hasValidationError = true;
@@ -36,9 +39,11 @@ export function NewEvent(props: NewEventProps) {
       hasValidationError = true;
     }
     if (hasValidationError) {
+      // do not save event if there is a validation error
       return;
     }
     props.handleSaveEvent({
+      // saves new event to the database
       id: generateId(),
       name,
       timeStart,
@@ -46,12 +51,15 @@ export function NewEvent(props: NewEventProps) {
     });
   };
   return (
+    // layout component
+    // bind handlers to events and states to display
     <div className="modify-events">
       <div className="new-event-name">
         <input
           type="text"
           placeholder="name"
           onChange={(e) => {
+            // remove error message when user changes input
             setName(e.target.value);
             setNameErrMsg("");
           }}

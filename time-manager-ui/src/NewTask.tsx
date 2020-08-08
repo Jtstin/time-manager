@@ -4,14 +4,17 @@ import { models } from "./models";
 const DefaultPriority = "Low";
 
 interface NewTaskProps {
+  // NewTaskProps allows for handler to be passed into the component
   handleSaveTask: (task) => void;
 }
 
 function generateId() {
+  // generates id for task using time
   return Date.now();
 }
 
 function isEarlierThanToday(date: string) {
+  // checks if the dueBy of new task is earlier than today's date
   const now = new Date();
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
@@ -22,13 +25,14 @@ function isEarlierThanToday(date: string) {
   return dateNumber < todayNumber;
 }
 export function NewTask(props: NewTaskProps) {
+  // useState allows components to have states
   const [name, setName] = useState("");
   const [dueBy, setDueBy] = useState("");
   const [priority, setPriority] = useState(DefaultPriority);
   const [nameErrMsg, setNameErrMsg] = useState("");
   const [dateErrMsg, setDateErrMsg] = useState("");
   const handleSaveTask = () => {
-    let hasValidationError = false;
+    let hasValidationError = false; // initialise validation error to false
     if (name === "") {
       setNameErrMsg("Cannot be empty");
       hasValidationError = true;
@@ -42,9 +46,11 @@ export function NewTask(props: NewTaskProps) {
       hasValidationError = true;
     }
     if (hasValidationError) {
+      // do not save task if there is a validation error
       return;
     }
     props.handleSaveTask({
+      // saves new task to the database
       id: generateId(),
       name,
       dueBy,
@@ -53,12 +59,15 @@ export function NewTask(props: NewTaskProps) {
     });
   };
   return (
+    // layout component
+    // bind handlers to events and states to display
     <div className="task-add">
       <div className="new-task-name">
         <input
           type="text"
           placeholder="name"
           onChange={(e) => {
+            // remove error message when user changes input
             setName(e.target.value);
             setNameErrMsg("");
           }}
