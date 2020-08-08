@@ -1,7 +1,7 @@
 import React from "react";
-import { models } from "./models";
+import { TaskModel } from "./TaskModel";
 
-type TaskProps = models.Task & {
+type TaskProps = TaskModel.Task & {
   // taskProps allows for data to be passed into the task component
   handleCompletion?: (taskId: number) => void;
   isEditMode: boolean;

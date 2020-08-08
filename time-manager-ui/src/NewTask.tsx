@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { models } from "./models";
+import { TaskModel } from "./TaskModel";
 
 const DefaultPriority = "Low";
 
@@ -91,11 +91,15 @@ export function NewTask(props: NewTaskProps) {
             setPriority(e.currentTarget.value);
           }}
         >
-          <option value={models.Priority.High}>{models.Priority.High}</option>
-          <option value={models.Priority.Medium}>
-            {models.Priority.Medium}
+          <option value={TaskModel.Priority.High}>
+            {TaskModel.Priority.High}
           </option>
-          <option value={models.Priority.Low}>{models.Priority.Low}</option>
+          <option value={TaskModel.Priority.Medium}>
+            {TaskModel.Priority.Medium}
+          </option>
+          <option value={TaskModel.Priority.Low}>
+            {TaskModel.Priority.Low}
+          </option>
         </select>
         <div className="error-message"></div>
       </div>

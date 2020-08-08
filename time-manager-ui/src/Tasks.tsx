@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import Task from "./Task";
 import Chart from "react-google-charts";
 import { NewTask } from "./NewTask";
-import { models } from "./models";
+import { TaskModel } from "./TaskModel";
 import { api } from "./api";
 import { mappers } from "./mappers";
 import { redirectToLoginWhenTokenNotFound } from "./accessToken";
@@ -60,8 +60,8 @@ function getGraph(graphType: GraphType, dayCounts: api.contracts.DayCount[]) {
 const Tasks = () => {
   // useState allows components to have states
   const [graphType, setGraphType] = useState(GraphType.Pie);
-  const [tasks, setTasks] = useState<models.Task[]>([]);
-  const [filteredTasks, setFilteredTasks] = useState<models.Task[]>([]);
+  const [tasks, setTasks] = useState<TaskModel.Task[]>([]);
+  const [filteredTasks, setFilteredTasks] = useState<TaskModel.Task[]>([]);
   const [nameFilter, setNameFilter] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("None");
   const [completedTaskSummary, setCompletedTaskSummary] = useState([]);
@@ -129,7 +129,8 @@ const Tasks = () => {
     if (e.currentTarget.value === "High-Low") {
       const sortedTasks = [...tasks].sort(
         (t1, t2) =>
-          models.priorityMap[t1.priority] - models.priorityMap[t2.priority]
+          TaskModel.priorityMap[t1.priority] -
+          TaskModel.priorityMap[t2.priority]
       );
       setTasks(sortedTasks);
       setFilteredTasks(sortedTasks);
@@ -137,7 +138,7 @@ const Tasks = () => {
     }
     const sortedTasks = [...tasks].sort(
       (t1, t2) =>
-        models.priorityMap[t2.priority] - models.priorityMap[t1.priority]
+        TaskModel.priorityMap[t2.priority] - TaskModel.priorityMap[t1.priority]
     );
     setTasks(sortedTasks);
     setFilteredTasks(sortedTasks);
