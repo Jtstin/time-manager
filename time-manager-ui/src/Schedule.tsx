@@ -12,6 +12,7 @@ enum NavigationDirection {
   backwards,
 }
 const DayNumberToDayText = {
+  // asigns a number to the day of the week
   0: "Sun",
   1: "Mon",
   2: "Tue",
@@ -21,6 +22,7 @@ const DayNumberToDayText = {
   6: "Sat",
 };
 function getDateText(date: Date) {
+  // gets the year, month and date to format into a string
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
@@ -28,11 +30,13 @@ function getDateText(date: Date) {
 }
 
 function getToday() {
+  // gets today's date
   const now = new Date();
   return getDateText(now);
 }
 
 export default function Schedule() {
+  // useState allows components to have states
   const [currentDate, setCurrentDate] = useState("");
   const [currentDayOfTheWeek, setCurrentDayOfTheWeek] = useState("");
   const [tasks, setTasks] = useState([]);
@@ -41,6 +45,7 @@ export default function Schedule() {
   const history = useHistory();
 
   const setEventsWithSort = (events) => {
+    // sorts events based on the start time
     const sortedEvents = events.sort(
       (e1, e2) =>
         Number(e1.timeStart.replace(new RegExp(":", "g"), "")) -
@@ -50,13 +55,19 @@ export default function Schedule() {
   };
   useEffect(() => {
     if (redirectToLoginWhenTokenNotFound(history)) {
+      // go to login screen when login token is not found
+      // otherwise continue with schedule screen
       return;
     }
+
+    // gets current day to display the days events
     const today = getToday();
     setCurrentDate(today);
     const dayOfWeekNumber = new Date(today).getDay();
     setCurrentDayOfTheWeek(DayNumberToDayText[dayOfWeekNumber]);
     api.getEvents(today).then((result) => setEventsWithSort(result));
+
+    // gets and shows remaining high priority tasks
     api.getHighPriorityTasks().then((tasks) => {
       const remainingHighPriorityTasks = tasks.filter(
         (task) => task.completed === 0
@@ -66,7 +77,9 @@ export default function Schedule() {
   }, []);
 
   const handleNavigateDate = (direction: NavigationDirection) => {
+    // allows user to toggle between days
     if (direction === NavigationDirection.forward) {
+      // the next day
       const nextDayNumber = Date.parse(currentDate) + 1000 * 60 * 60 * 24;
       const nextDay = new Date(nextDayNumber);
       const nextDayText = getDateText(nextDay);
@@ -78,6 +91,7 @@ export default function Schedule() {
       });
       return;
     }
+    // the previous day
     const prevDayNumber = Date.parse(currentDate) - 1000 * 60 * 60 * 24;
     const prevDay = new Date(prevDayNumber);
     const prevDayText = getDateText(prevDay);
@@ -89,6 +103,7 @@ export default function Schedule() {
     });
   };
   const handleSaveEvent = (newEvent) => {
+    // saves event based on the current date and displays it
     api.saveEvent(currentDate, newEvent).then((response) => {
       if (response.ok) {
         setEventsWithSort([...events, newEvent]);
@@ -97,9 +112,11 @@ export default function Schedule() {
   };
 
   const handleTaskButtonClick = () => {
+    // takes user to tasks screen
     history.push("/tasks");
   };
   const handleDeleteEvent = (eventId) => {
+    // deletes the event based on the current date and event id and diplays new event list
     api.deleteEvent(currentDate, eventId).then((response) => {
       if (response.ok) {
         const newEventList = [...events].filter(
