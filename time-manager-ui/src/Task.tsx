@@ -40,6 +40,8 @@ export default function Task(props: TaskProps) {
     handleDelete,
   } = props;
   return (
+    // layout component
+
     <div className="row-properties">
       <div>{name}</div>
       <div>DueBy: {dueBy}</div>

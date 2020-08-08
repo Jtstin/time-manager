@@ -127,6 +127,8 @@ export default function Schedule() {
     });
   };
   return (
+    // layout component
+    // bind handlers to events and states to display
     <div className="main-container">
       <div className="schedule-page">
         <div className="schedule-page-header">
