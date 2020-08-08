@@ -1,6 +1,7 @@
 import React from "react";
 
 export interface EventProps {
+  // single event definition
   eventId: number;
   name: string;
   timeStart: string;
@@ -9,6 +10,7 @@ export interface EventProps {
   handleDelete: (eventId: number) => void;
 }
 function getDeleteButton(isEditMode, handleDelete) {
+  // only return delete button when screen is in edit mode
   if (isEditMode) {
     return (
       <div>
@@ -22,9 +24,12 @@ function getDeleteButton(isEditMode, handleDelete) {
 }
 
 export default function IndiEvent(props: EventProps) {
+  // the single event component
   const { eventId, name, timeStart, timeEnd, isEditMode, handleDelete } = props;
 
   return (
+    // layout component
+    // bind handlers to props to display
     <div className="row-properties">
       <div>{name}</div>
       <div>Time Start:{timeStart}</div>

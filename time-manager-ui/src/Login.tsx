@@ -5,16 +5,19 @@ import { useHistory } from "react-router-dom";
 import { api } from "./api";
 
 export default function Login() {
+  // useState allows components to have states
   const [password, setPassword] = useState("");
   const [loginErrMsg, setLoginErrMsg] = useState("");
   const [loginFailures, setLoginFailures] = useState(0);
   const history = useHistory();
 
   const handleSaveToken = () => {
+    // checks if the user has exceeded the amount of tries
     if (loginFailures > 3) {
       setLoginErrMsg("Exceeded password tries");
       return;
     }
+    // it encrypts the password and checks if it is correct
     encrypt(password)
       .then((encryptedPassword) => api.login(encryptedPassword))
       .then((token) => {
@@ -23,11 +26,14 @@ export default function Login() {
           setLoginFailures(loginFailures + 1);
           return;
         }
+        // gets token to access api and tasks screen(default)
         saveAccessToken(token);
         history.go(-1);
       });
   };
   return (
+    // layout component
+    // bind handlers to events and states to display
     <div className="login-page">
       <div className="message">WELCOME BACK</div>
       <div className="password">
@@ -38,6 +44,7 @@ export default function Login() {
             id="pw"
             name="pw"
             onChange={(e) => {
+              // remove error message when user changes input
               setPassword(e.target.value);
               setLoginErrMsg("");
             }}

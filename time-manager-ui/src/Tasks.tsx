@@ -188,6 +188,7 @@ const Tasks = () => {
                 ></input>
                 <select
                   onChange={(e) => {
+                    // remove error message when user changes input
                     setPriorityFilter(e.currentTarget.value);
                   }}
                 >

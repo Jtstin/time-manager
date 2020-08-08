@@ -6,6 +6,7 @@ import Tasks from "./Tasks";
 import Schedule from "./Schedule";
 
 const App = () => {
+  // browser URL routing to the different screens
   return (
     <BrowserRouter>
       <Switch>
@@ -18,4 +19,4 @@ const App = () => {
   );
 };
 
-render(<App />, document.getElementById("app"));
+render(<App />, document.getElementById("app")); //renders the app
