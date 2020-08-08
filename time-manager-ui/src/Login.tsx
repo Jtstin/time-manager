@@ -1,3 +1,14 @@
+//Name: Justin Tan
+//Start Date: 07/07/2020
+//Last Updated: 08/08/2020
+//Description: This is where the user will be able to login to the app
+
+//Data Dictionary
+//Name               Type      Scope     Description
+//password           string    local     The password the user inputs
+//loginErrMsg        string    local     Error message when the user enters the wrong password
+//loginFailures      number    local     Counts the number of times the user has entered the wrong password
+
 import React, { useState } from "react";
 import { render } from "react-dom";
 import { saveAccessToken, str2ab, publicKey, encrypt } from "./accessToken";

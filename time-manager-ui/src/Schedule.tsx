@@ -1,3 +1,16 @@
+//Name: Justin Tan
+//Start Date: 07/07/2020
+//Last Updated: 08/08/2020
+//Description: This is the schedule screen where the user's events and high priority tasks will be shown
+
+//Data Dictionary
+//Name                  Type      Scope     Description
+//currentDate           Date      local     The current date
+//currentDayOfTheWeek   string    local     The name of the day of the week
+//tasks                 array     local     The high priority tasks that are displayed
+//events                array     local     The events that are scheduled
+//isEditMode            boolean   local     Whether the user is in edit mode or not
+
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Switch from "react-switch";

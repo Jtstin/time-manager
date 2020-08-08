@@ -1,3 +1,8 @@
+//Name: Justin Tan
+//Start Date: 20/07/2020
+//Last Updated: 08/08/2020
+//Description: defines the event properties
+
 import React from "react";
 
 export interface EventProps {

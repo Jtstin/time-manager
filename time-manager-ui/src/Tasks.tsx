@@ -1,3 +1,18 @@
+//Name: Justin Tan
+//Start Date: 07/07/2020
+//Last Updated: 08/08/2020
+//Description: This is the Tasks screen where the user's tasks are displayed
+
+//Data Dictionary
+//Name                  Type      Scope     Description
+//graphType             enum      local     The current date
+//tasks                 array     local     The name of the day of the week
+//filteredTasks         array     local     The high priority tasks that are displayed
+//nameFilter            string    local     The events that are scheduled
+//priorityFilter        string    local     filters the tasks based on priority
+//completedTaskSummary  array     local     It is an Array of dayCounts
+//isEditMode            boolean   local     Whether the user is in edit mode or not
+
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Task from "./Task";

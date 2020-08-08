@@ -1,3 +1,8 @@
+//Name: Justin Tan
+//Start Date: 07/07/2020
+//Last Updated: 08/08/2020
+//Description: This is the schedule screen where the users events and high priority tasks will be shown
+
 import React from "react";
 import { TaskModel } from "./TaskModel";
 

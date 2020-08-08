@@ -1,3 +1,17 @@
+//Name: Justin Tan
+//Start Date: 20/07/2020
+//Last Updated: 08/08/2020
+//Description: Allows adding a new event to schedule
+
+//Data Dictionary
+//Name             Type      Scope     Description
+//name             string    local     Name of new event
+//timeStart        Time      local     Time that new event starts
+//timeEnd          Time      local     Time that new event ends
+//nameErrMsg       string    local     Error message when name textbox is empty
+//timeEndErrMsg    string    local     Error message when time end is ealier than time start and when it is empty
+//timeStartErrMsg  string    local     Error message when time start is empty
+
 import React, { useState } from "react";
 
 interface NewEventProps {
@@ -42,6 +56,7 @@ export function NewEvent(props: NewEventProps) {
       // do not save event if there is a validation error
       return;
     }
+
     props.handleSaveEvent({
       // saves new event to the database
       id: generateId(),

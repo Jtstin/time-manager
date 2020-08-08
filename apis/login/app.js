@@ -1,3 +1,8 @@
+//Name: Justin Tan
+//Start Date: 1/08/2020
+//Last Updated: 08/08/2020
+//Description: This is the api for login
+
 const { Crypto } = require("@peculiar/webcrypto");
 const jwt = require("jsonwebtoken");
 

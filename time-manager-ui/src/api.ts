@@ -1,3 +1,8 @@
+//Name: Justin Tan
+//Start Date: 18/07/2020
+//Last Updated: 08/08/2020
+//Description: This is where the ui connects with the api
+
 import { getHeaderWithBearerToken } from "./accessToken";
 
 function getApiBaseURL() {

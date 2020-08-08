@@ -1,3 +1,16 @@
+//Name: Justin Tan
+//Start Date: 19/07/2020
+//Last Updated: 08/08/2020
+//Description: Allows adding a new task to task list on the "Tasks" screen
+
+//Data Dictionary
+//Name             Type      Scope     Description
+//name             string    local     Name of new task
+//dueBy            Date      local     due by date of new task
+//priority         string    local     priority of new task
+//nameErrMsg       string    local     Error message when name textbox is empty
+//dateErrMsg       string    local     Error message when date is emopty or when date is earlier than today's date
+
 import React, { useState } from "react";
 import { TaskModel } from "./TaskModel";
 

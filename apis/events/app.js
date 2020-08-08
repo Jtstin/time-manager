@@ -1,3 +1,8 @@
+//Name: Justin Tan
+//Start Date: 18/07/2020
+//Last Updated: 08/08/2020
+//Description: This is the api for events
+
 const AWS = require("aws-sdk");
 const jwt = require("jsonwebtoken");
 const ROUTEKEY_GET_EVENTS = "GET /events/{eventDate}";

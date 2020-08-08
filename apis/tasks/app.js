@@ -1,3 +1,8 @@
+//Name: Justin Tan
+//Start Date: 16/07/2020
+//Last Updated: 08/08/2020
+//Description: This is the api for tasks
+
 const AWS = require("aws-sdk");
 const jwt = require("jsonwebtoken");
 const ROUTEKEY_GET_TASKS = "GET /tasks";

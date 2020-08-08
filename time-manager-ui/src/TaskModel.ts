@@ -1,3 +1,8 @@
+//Name: Justin Tan
+//Start Date: 23/07/2020
+//Last Updated: 08/08/2020
+//Description: defines the properties of tasks
+
 export namespace TaskModel {
   // priority definition
   export enum Priority {

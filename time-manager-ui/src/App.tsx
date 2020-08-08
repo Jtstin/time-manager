@@ -1,3 +1,8 @@
+//Name: Justin Tan
+//Start Date: 07/07/2020
+//Last Updated: 08/08/2020
+//Description: routing for the app as well as how the whole app is loaded
+
 import React from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";

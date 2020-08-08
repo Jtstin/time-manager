@@ -1,3 +1,8 @@
+//Name: Justin Tan
+//Start Date: 31/07/2020
+//Last Updated: 08/08/2020
+//Description: This is where the access token is saved and allows user to access api
+
 const OneDay = 1000 * 60 * 60 * 24;
 const AccessToken = "access_token";
 export function saveAccessToken(token: string) {
