@@ -9,7 +9,7 @@
   "dependencies": {
     "aws-sdk": "^2.714.2",
     "axios": "^0.18.0",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^9.0.0"
   },
   "scripts": {
     "start-dyndb-admin": "DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin"
